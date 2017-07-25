@@ -1,24 +1,4 @@
-# GreenHat
-一个 Java MVC框架轮子
 
-使用方法：
-
-1. 下载源码,到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
-
-2. 新建maven工程，在pom.xml中加入，并点击import~
-```xml
-<dependencies>
-    <dependency>
-        <groupId>com.github.ChurchTao</groupId>
-        <artifactId>GreenHat</artifactId>
-        <version>1.0</version>
-    </dependency>
-</dependencies>
-```
-
-3.接下去在`main`下新建`webapp`，在`webapp`下新建`WEB-INF`，在`WEB-INF`下新建`web.xml`
-
-4.出现一个小弹窗点击 ok ，相当于创建成功一个webapp项目。
 
 [![](http://115.159.181.84:9000/upload/2017/07/oe28fngd7sj7ep6pn6bua4f26m.png)](https://github.com/ChurchTao/GreenHat)
 
