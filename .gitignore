@@ -2,6 +2,7 @@
 *.war
 *.ear
 *.orig
+out/
 target/
 .settings
 .progect
