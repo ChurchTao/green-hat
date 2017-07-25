@@ -1,0 +1,38 @@
+package com.greenhat.banner;
+
+/**
+ * Created by jiacheng on 2017/7/24.
+ */
+public final class Banner {
+    private static String[] banner ={
+            "                             _           _   " ,
+            "                            | |         | |  " ,
+            "  __ _ _ __ ___  ___ _ __   | |__   __ _| |_ " ,
+            " / _` | '__/ _ \\/ _ \\ '_ \\  | '_ \\ / _` | __|" ,
+            "| (_| | | |  __/  __/ | | | | | | | (_| | |_ " ,
+            " \\__, |_|  \\___|\\___|_| |_| |_| |_|\\__,_|\\__|" ,
+            "  __/ |                                      " ,
+            " |___/                                       "};
+
+    private static String[] banner3D ={
+            "                                     __                __      " ,
+            "                                    /\\ \\              /\\ \\__   " ,
+            "   __   _ __    __     __    ___    \\ \\ \\___      __  \\ \\ ,_\\  " ,
+            " /'_ `\\/\\`'__\\/'__`\\ /'__`\\/' _ `\\   \\ \\  _ `\\  /'__`\\ \\ \\ \\/  " ,
+            "/\\ \\L\\ \\ \\ \\//\\  __//\\  __//\\ \\/\\ \\   \\ \\ \\ \\ \\/\\ \\L\\.\\_\\ \\ \\_ " ,
+            "\\ \\____ \\ \\_\\\\ \\____\\ \\____\\ \\_\\ \\_\\   \\ \\_\\ \\_\\ \\__/.\\_\\\\ \\__\\" ,
+            " \\/___L\\ \\/_/ \\/____/\\/____/\\/_/\\/_/    \\/_/\\/_/\\/__/\\/_/ \\/__/" ,
+            "   /\\____/                                                     " ,
+            "   \\_/__/          "};
+
+    public static void startBanner(){
+        StringBuilder builder = new StringBuilder();
+        for (String text:banner3D){
+            builder.append("\r\n\t\t");
+            builder.append(text);
+        }
+        builder.append("\r\n\t\t");
+        System.out.println(builder.toString());
+    }
+
+}
