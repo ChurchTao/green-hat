@@ -37,13 +37,13 @@ public class DispatcherServlet extends HttpServlet {
 
         logger.debug("[Green Hat] {}:{}", requestMethod, requestPath);
         // 将“/”请求重定向到首页
-        if (requestMethod.equals("/")) {
+        if (requestPath.equals("/")||requestPath.equals("")) {
             WebUtil.redirectRequest(ConfigNames.HOME_PAGE, req, res);
             return;
         }
         // 去掉当前请求路径末尾的“/”
-        if (requestMethod.endsWith("/")) {
-            requestMethod = requestPath.substring(0, requestPath.length() - 1);
+        if (requestPath.endsWith("/")) {
+            requestPath = requestPath.substring(0, requestPath.length() - 1);
         }
 
         Handler handler = ControllerHelper.getHandler(requestMethod, requestPath);
