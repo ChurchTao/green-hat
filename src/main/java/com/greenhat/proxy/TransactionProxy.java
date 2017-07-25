@@ -2,7 +2,7 @@ package com.greenhat.proxy;
 
 
 import com.greenhat.annotation.Transaction;
-import com.greenhat.helper.DatabaseHelper;
+import com.greenhat.loader.DatabaseLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,13 +30,13 @@ public class TransactionProxy implements Proxy {
         if (!flag&&method.isAnnotationPresent(Transaction.class)){
             FLAG_HOLDER.set(true);
             try {
-                DatabaseHelper.beginTransaction();
+                DatabaseLoader.beginTransaction();
                 logger.debug("开始事务");
                 result = proxyChain.doProxyChain();
-                DatabaseHelper.commitTransaction();
+                DatabaseLoader.commitTransaction();
                 logger.debug("提交事务");
             }catch (Exception e){
-                DatabaseHelper.rollbackTransaction();
+                DatabaseLoader.rollbackTransaction();
                 logger.debug("回滚事务");
                 e.printStackTrace();
             }finally {

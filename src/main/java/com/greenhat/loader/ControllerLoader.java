@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 
 
@@ -18,11 +18,11 @@ import java.util.regex.Pattern;
 /**
  * Created by jiacheng on 2017/7/19.
  */
-public final class ControllerHelper {
+public final class ControllerLoader {
     private static final Map<Request,Handler> actionMap = new HashMap<Request, Handler>();
 
     static {
-        List<Class<?>> controllerList = ClassHelper.getControllerClasses();
+        List<Class<?>> controllerList = ClassLoader.getControllerClasses();
         if (CollectionUtil.isNotEmpty(controllerList)){
             for (Class<?> controllerClass:controllerList){
                 Method[] methods = controllerClass.getDeclaredMethods();

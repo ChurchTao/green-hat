@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 import com.greenhat.annotation.Aspect;
 import com.greenhat.annotation.Service;
@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Created by jiacheng on 2017/7/21.
  */
-public final class AopHelper {
+public final class AopLoader {
     static {
         try {
             // 创建 Proxy Map（用于 存放代理类 与 目标类列表 的映射关系）
@@ -29,7 +29,7 @@ public final class AopHelper {
                 // 创建代理实例
                 Object proxyInstance = ProxyManager.createProxy(targetClass, proxyList);
                 // 用代理实例覆盖目标实例，并放入 Bean 容器中
-                BeanHelper.setBean(targetClass, proxyInstance);
+                BeanLoader.setBean(targetClass, proxyInstance);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public final class AopHelper {
         List<Class<?>> targetClassList = new ArrayList<Class<?>>();
         Class<? extends Annotation> annotation = aspect.value();
         if (annotation != null && !annotation.equals(Aspect.class)) {
-            targetClassList.addAll(ClassHelper.getClassListByAnnotation(annotation));
+            targetClassList.addAll(ClassLoader.getClassListByAnnotation(annotation));
         }
         return targetClassList;
     }
@@ -57,7 +57,7 @@ public final class AopHelper {
 
     private static void addAspectProxy(Map<Class<?>, List<Class<?>>> proxyMap) throws Exception {
         // 获取插件包名下父类为 PluginProxy 的所有类（插件代理类）
-        List<Class<?>> proxyClassList = ClassHelper.getClassListBySuper(AspectProxy.class);
+        List<Class<?>> proxyClassList = ClassLoader.getClassListBySuper(AspectProxy.class);
         if (CollectionUtil.isNotEmpty(proxyClassList)) {
             // 遍历所有插件代理类
             for (Class<?> proxyClass : proxyClassList) {
@@ -72,7 +72,7 @@ public final class AopHelper {
 
     private static void addTransactionProxy(Map<Class<?>, List<Class<?>>> proxyMap) {
         // 使用 TransactionProxy 代理所有 Service 类
-        List<Class<?>> serviceClassList = ClassHelper.getClassListByAnnotation(Service.class);
+        List<Class<?>> serviceClassList = ClassLoader.getClassListByAnnotation(Service.class);
         proxyMap.put(TransactionProxy.class, serviceClassList);
     }
 

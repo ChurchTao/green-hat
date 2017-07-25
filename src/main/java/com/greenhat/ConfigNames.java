@@ -1,7 +1,7 @@
 package com.greenhat;
 
 
-import com.greenhat.helper.ConfigHelper;
+import com.greenhat.loader.ConfigLoader;
 
 public interface ConfigNames {
     String UTF_8 = "UTF-8";
@@ -14,5 +14,5 @@ public interface ConfigNames {
     String APP_JSP_PATH = "app.jsp_path";
     String APP_ASSET_PATH = "app.asset_path";
     String APP_WWW_PATH = "app.www_path";
-    String HOME_PAGE = ConfigHelper.getString("app.home_page", "/index.html");
+    String HOME_PAGE = ConfigLoader.getString("app.home_page", "/index.html");
 }

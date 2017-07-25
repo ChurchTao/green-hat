@@ -1,7 +1,8 @@
 package com.greenhat;
 
 import com.greenhat.banner.Banner;
-import com.greenhat.helper.*;
+import com.greenhat.loader.*;
+import com.greenhat.loader.ClassLoader;
 import com.greenhat.util.ClassUtil;
 
 /**
@@ -10,11 +11,11 @@ import com.greenhat.util.ClassUtil;
 public final class GreenHatLoader {
     public static void init() {
         Class<?>[] classes = {
-                ClassHelper.class,
-                BeanHelper.class,
-                AopHelper.class,
-                IocHelper.class,
-                ControllerHelper.class
+                ClassLoader.class,
+                BeanLoader.class,
+                AopLoader.class,
+                IocLoader.class,
+                ControllerLoader.class
         };
         Banner.startBanner();
         for (Class<?> cls : classes) {

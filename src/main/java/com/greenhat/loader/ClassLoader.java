@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 
 
@@ -11,12 +11,12 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ClassHelper {
+public final class ClassLoader {
 
     private static final List<Class<?>> CLASS_LIST;
 
     static {
-        String basePackage=ConfigHelper.getAppBasePackage();
+        String basePackage= ConfigLoader.getAppBasePackage();
         CLASS_LIST = ClassUtil.getClassList(basePackage);
     }
 

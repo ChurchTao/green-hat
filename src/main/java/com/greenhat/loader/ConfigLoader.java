@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 
 import com.greenhat.ConfigNames;
@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  * 获取属性文件中的属性值
  */
-public final class ConfigHelper {
+public final class ConfigLoader {
 
     /**
      * 属性文件对象

@@ -3,7 +3,7 @@ package com.greenhat.mvc;
 
 
 import com.greenhat.GreenHatLoader;
-import com.greenhat.helper.ConfigHelper;
+import com.greenhat.loader.ConfigLoader;
 import com.greenhat.util.StringUtil;
 
 import javax.servlet.ServletContext;
@@ -40,9 +40,9 @@ public class ServletInitListener implements ServletContextListener {
     private void registerDefaultServlet(ServletContext context) {
         ServletRegistration defaultServlet = context.getServletRegistration("default");
         defaultServlet.addMapping("/index.html");
-        defaultServlet.addMapping(ConfigHelper.getAppAssetPath() + "*");
+        defaultServlet.addMapping(ConfigLoader.getAppAssetPath() + "*");
         defaultServlet.addMapping("/favicon.ico");
-        String wwwPath = ConfigHelper.getAppWwwPath();
+        String wwwPath = ConfigLoader.getAppWwwPath();
         if (StringUtil.isNotEmpty(wwwPath)) {
             defaultServlet.addMapping(wwwPath + "*");
         }
@@ -51,7 +51,7 @@ public class ServletInitListener implements ServletContextListener {
     private void registerJspServlet(ServletContext context) {
         ServletRegistration jspServlet = context.getServletRegistration("jsp");
         jspServlet.addMapping("/index.jsp");
-        String jspPath = ConfigHelper.getAppJspPath();
+        String jspPath = ConfigLoader.getAppJspPath();
         if (StringUtil.isNotEmpty(jspPath)) {
             jspServlet.addMapping(jspPath + "*");
         }

@@ -2,8 +2,8 @@ package com.greenhat.mvc;
 
 
 
-import com.greenhat.helper.BeanHelper;
-import com.greenhat.helper.ConfigHelper;
+import com.greenhat.loader.BeanLoader;
+import com.greenhat.loader.ConfigLoader;
 import com.greenhat.mvc.bean.Data;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Param;
@@ -26,7 +26,7 @@ public class RequestHandler {
 
     public void doHandel(HttpServletRequest req, HttpServletResponse res, Handler handler) throws Exception{
         Class<?> controllerClass = handler.getControllerClass();
-        Object controllerBean = BeanHelper.getBean(controllerClass);
+        Object controllerBean = BeanLoader.getBean(controllerClass);
 
         Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
 
@@ -44,7 +44,7 @@ public class RequestHandler {
                 for (Map.Entry<String,Object>entry:model.entrySet()){
                     req.setAttribute(entry.getKey(),entry.getValue());
                 }
-                req.getRequestDispatcher(ConfigHelper.getAppJspPath()+path).forward(req,res);
+                req.getRequestDispatcher(ConfigLoader.getAppJspPath()+path).forward(req,res);
 
             }
         } else if (result instanceof Data) {
@@ -62,7 +62,7 @@ public class RequestHandler {
         }else if (result instanceof String){
             String path = (String)result;
             if (!path.equals("")){
-                req.getRequestDispatcher(ConfigHelper.getAppWwwPath()+path).forward(req,res);
+                req.getRequestDispatcher(ConfigLoader.getAppWwwPath()+path).forward(req,res);
             }
         }
     }

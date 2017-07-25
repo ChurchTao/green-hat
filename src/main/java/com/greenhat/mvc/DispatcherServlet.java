@@ -2,7 +2,7 @@ package com.greenhat.mvc;
 
 
 import com.greenhat.ConfigNames;
-import com.greenhat.helper.ControllerHelper;
+import com.greenhat.loader.ControllerLoader;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.util.WebUtil;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class DispatcherServlet extends HttpServlet {
             requestPath = requestPath.substring(0, requestPath.length() - 1);
         }
 
-        Handler handler = ControllerHelper.getHandler(requestMethod, requestPath);
+        Handler handler = ControllerLoader.getHandler(requestMethod, requestPath);
 
         if (handler == null) {
             WebUtil.sendError(HttpServletResponse.SC_NOT_FOUND, "", res);

@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 
 import com.greenhat.annotation.Autowired;
@@ -14,11 +14,11 @@ import java.util.Map;
 /**
  * 注入对象
  */
-public final class IocHelper {
+public final class IocLoader {
     static {
         try {
             // 获取并遍历所有的 Bean 类
-            Map<Class<?>, Object> beanMap = BeanHelper.getBeans();
+            Map<Class<?>, Object> beanMap = BeanLoader.getBeans();
             for (Map.Entry<Class<?>, Object> beanEntry : beanMap.entrySet()) {
                 // 获取 Bean 类与 Bean 实例
                 Class<?> beanClass = beanEntry.getKey();

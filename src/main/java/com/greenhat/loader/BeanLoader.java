@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 import com.greenhat.annotation.*;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by jiacheng on 2017/7/19.
  */
-public final class BeanHelper {
+public final class BeanLoader {
     private static final Map<Class<?>, Object> Beans = new HashMap<Class<?>, Object>();
 
     static {
@@ -21,7 +21,7 @@ public final class BeanHelper {
 
         try {
             // 获取应用包路径下所有的类
-            List<Class<?>> classList = ClassHelper.getClassList();
+            List<Class<?>> classList = ClassLoader.getClassList();
             for (Class<?> cls : classList) {
                 // 处理带有 Bean/Service/Action/Aspect 注解的类
                 if (cls.isAnnotationPresent(Bean.class) ||

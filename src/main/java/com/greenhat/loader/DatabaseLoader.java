@@ -1,4 +1,4 @@
-package com.greenhat.helper;
+package com.greenhat.loader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +10,13 @@ import java.sql.SQLException;
 /**
  * Created by jiacheng on 2017/7/21.
  */
-public final class DatabaseHelper {
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseHelper.class);
+public final class DatabaseLoader {
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-    private static final String driver = ConfigHelper.getJdbcDriver();
-    private static final String url = ConfigHelper.getJdbcURL();
-    private static final String username = ConfigHelper.getJdbcUsername();
-    private static final String password = ConfigHelper.getJdbcPassword();
+    private static final String driver = ConfigLoader.getJdbcDriver();
+    private static final String url = ConfigLoader.getJdbcURL();
+    private static final String username = ConfigLoader.getJdbcUsername();
+    private static final String password = ConfigLoader.getJdbcPassword();
 
     private static ThreadLocal<Connection> connContainer = new ThreadLocal<Connection>();
 
