@@ -5,6 +5,8 @@ package com.greenhat.mvc;
 import com.greenhat.GreenHatLoader;
 import com.greenhat.loader.ConfigLoader;
 import com.greenhat.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -17,6 +19,7 @@ import javax.servlet.annotation.WebListener;
  */
 @WebListener
 public class ServletInitListener implements ServletContextListener {
+    private static final Logger logger = LoggerFactory.getLogger(ServletInitListener.class);
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         // 获取 ServletContext
@@ -35,6 +38,7 @@ public class ServletInitListener implements ServletContextListener {
         registerDefaultServlet(context);
         // 用 JspServlet 映射所有 JSP 请求
         registerJspServlet(context);
+        logger.info("All static pages and resources init OK!");
     }
 
     private void registerDefaultServlet(ServletContext context) {

@@ -3,6 +3,8 @@ package com.greenhat.loader;
 
 import com.greenhat.annotation.Autowired;
 import com.greenhat.util.ArrayUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -15,8 +17,10 @@ import java.util.Map;
  * 注入对象
  */
 public final class IocLoader {
+    private static final Logger logger = LoggerFactory.getLogger(IocLoader.class);
     static {
         try {
+            logger.info("IocLoader init start!");
             // 获取并遍历所有的 Bean 类
             Map<Class<?>, Object> beanMap = BeanLoader.getBeans();
             for (Map.Entry<Class<?>, Object> beanEntry : beanMap.entrySet()) {
@@ -43,6 +47,7 @@ public final class IocLoader {
                             }
                         }
                     }
+                    logger.info("IocLoader total [autowired] [{}] bean in [{}] ~",beanFields.length,beanClass.getName());
                 }
             }
         } catch (Exception e) {

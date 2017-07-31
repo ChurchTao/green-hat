@@ -7,6 +7,8 @@ import com.greenhat.proxy.Proxy;
 import com.greenhat.proxy.ProxyManager;
 import com.greenhat.proxy.TransactionProxy;
 import com.greenhat.util.CollectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -15,7 +17,9 @@ import java.util.*;
  * Created by jiacheng on 2017/7/21.
  */
 public final class AopLoader {
+    private static final Logger logger = LoggerFactory.getLogger(AopLoader.class);
     static {
+        logger.info("AopLoader init start!");
         try {
             // 创建 Proxy Map（用于 存放代理类 与 目标类列表 的映射关系）
             Map<Class<?>, List<Class<?>>> proxyMap = createProxyMap();
@@ -67,6 +71,7 @@ public final class AopLoader {
                     proxyMap.put(proxyClass, targetClassList);
                 }
             }
+            logger.info("AopLoader total loaded [{}] Aspect~",proxyMap.size());
         }
     }
 

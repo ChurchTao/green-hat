@@ -56,6 +56,7 @@ public class DispatcherServlet extends HttpServlet {
         DataContext.init(req, res);
         try {
             // 调用 Handler
+            logger.info("Handled {}",requestMethod+":/"+requestPath);
             requestHandler.doHandel(req, res, handler);
         } catch (Exception e) {
             e.printStackTrace();

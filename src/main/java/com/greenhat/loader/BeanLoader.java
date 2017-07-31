@@ -1,6 +1,8 @@
 package com.greenhat.loader;
 
 import com.greenhat.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,15 +12,12 @@ import java.util.Map;
  * Created by jiacheng on 2017/7/19.
  */
 public final class BeanLoader {
+    private static final Logger logger = LoggerFactory.getLogger(BeanLoader.class);
+
     private static final Map<Class<?>, Object> Beans = new HashMap<Class<?>, Object>();
 
     static {
-//        List<Class<?>> beanlist = ClassHelper.getClassList();
-//        for (Class<?> bean : beanlist){
-//            Object obj= ObjectUtil.newInstance(bean.getName());
-//            Beans.put(bean,obj);
-//        }
-
+        logger.info("BeanLoader init start!");
         try {
             // 获取应用包路径下所有的类
             List<Class<?>> classList = ClassLoader.getClassList();
@@ -34,6 +33,7 @@ public final class BeanLoader {
                     Beans.put(cls, beanInstance);
                 }
             }
+            logger.info("BeanLoader total loaded [{}] bean!",Beans.size());
         } catch (Exception e) {
             e.printStackTrace();
         }

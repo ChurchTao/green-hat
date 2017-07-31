@@ -7,6 +7,8 @@ import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Request;
 import com.greenhat.util.ArrayUtil;
 import com.greenhat.util.CollectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -19,9 +21,12 @@ import java.util.regex.Pattern;
  * Created by jiacheng on 2017/7/19.
  */
 public final class ControllerLoader {
+    private static final Logger logger = LoggerFactory.getLogger(ControllerLoader.class);
+
     private static final Map<Request,Handler> actionMap = new HashMap<Request, Handler>();
 
     static {
+        logger.info("ControllerLoader init start!");
         List<Class<?>> controllerList = ClassLoader.getControllerClasses();
         if (CollectionUtil.isNotEmpty(controllerList)){
             for (Class<?> controllerClass:controllerList){
@@ -39,6 +44,7 @@ public final class ControllerLoader {
                                     Request request = new Request(requestMethod,requestPath);
                                     Handler handler = new Handler(controllerClass,method);
                                     actionMap.put(request,handler);
+                                    logger.info("Put [{}] into [{}] Action Mapping~",array[0]+array[1],controllerClass.getName());
                                 }
                             }
                         }
