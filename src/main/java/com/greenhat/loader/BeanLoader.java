@@ -26,7 +26,7 @@ public final class BeanLoader {
                 if (cls.isAnnotationPresent(Bean.class) ||
                         cls.isAnnotationPresent(Service.class) ||
                         cls.isAnnotationPresent(Controller.class) ||
-                        cls.isAnnotationPresent(Aspect.class)) {
+                        cls.isAnnotationPresent(Aspect.class)||cls.isAnnotationPresent(Autowired.class)) {
                     // 创建 Bean 实例
                     Object beanInstance = cls.newInstance();
                     // 将 Bean 实例放入 Bean Map 中（键为 Bean 类，值为 Bean 实例）

@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 /**
  * Created by jiacheng on 2017/7/21.
  */
-public class AspectProxy implements Proxy {
+public abstract class AspectProxy implements Proxy {
     private static final Logger logger = LoggerFactory.getLogger(AspectProxy.class);
 
     public Object doProxy(ProxyChain proxyChain) throws Throwable {
@@ -38,26 +38,26 @@ public class AspectProxy implements Proxy {
         return result;
     }
 
-    private void error(Class<?> cls, Method method, Object[] params, Object result) throws Throwable {
+    public void error(Class<?> cls, Method method, Object[] params, Object result) throws Throwable {
 
     }
 
-    private void end() {
+    public void end() {
     }
 
-    private void after(Class<?> cls, Method method, Object[] params, Object result) {
-
-    }
-
-    private void before(Class<?> cls, Method method, Object[] params) {
+    public void after(Class<?> cls, Method method, Object[] params, Object result) {
 
     }
 
-    private boolean intercept(Class<?> cls, Method method, Object[] params) {
+    public void before(Class<?> cls, Method method, Object[] params) {
+
+    }
+
+    public boolean intercept(Class<?> cls, Method method, Object[] params) {
         return true;
     }
 
-    private void begin() {
+    public void begin() {
 
     }
 
