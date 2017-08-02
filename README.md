@@ -1,17 +1,17 @@
 
 
-[![](http://115.159.181.84:9000/upload/2017/07/oe28fngd7sj7ep6pn6bua4f26m.png)](https://github.com/ChurchTao/GreenHat)
+[![](http://115.159.181.84:9000/upload/2017/07/oe28fngd7sj7ep6pn6bua4f26m.png)](https://github.com/ChurchTao/green-hat)
 
 [Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhat-demo)&nbsp; | &nbsp;[English]()
 
 
-## What is GreenHat ?
+## What is green-hat ?
 
-GreenHat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只能是注解...)，在学习spring原理的途中
+green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只能是注解...)，在学习spring原理的途中
 
-想着自己造一个简单的轮子。于是就有了这个 `GreenHat[Forgive Hat]`
+想着自己造一个简单的轮子。于是就有了这个 `green-hat[Forgive Hat]`
 
-如果你喜欢它请为它 [Star](https://github.com/ChurchTao/GreenHat/stargazers) 谢谢
+如果你喜欢它请为它 [Star](https://github.com/ChurchTao/green-hat/stargazers) 谢谢
 
 ## 特性
 
@@ -26,11 +26,11 @@ GreenHat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只�
 ## 概述
 
 * 简洁的：框架设计简单,容易理解,不依赖于更多第三方库。你完全可以看懂框架里面的简单代码。
-* 优雅的：`GreenHat` 沿用Spring的注解风格，方便记忆。
+* 优雅的：`green-hat` 沿用Spring的注解风格，方便记忆。
 
 ## 快速入门 [demo](https://github.com/ChurchTao/greenhat-demo)
 
-开始之前,首先 下载[源码](https://github.com/ChurchTao/GreenHat),到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
+开始之前,首先 下载[源码](https://github.com/ChurchTao/green-hat),到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
 
 因为它还没有资格进入Maven中央仓库。
 
@@ -56,6 +56,7 @@ app.jsp_path=/WEB-INF/view/     Jsp目录
 app.asset_path=/asset/          资源目录
 app.home_page=/index.html       主页
 app.www_path=/www/              html页面地址
+app.upload_limit=10             上传文件大小[默认10mb]
 ```
 
 ## API示例
@@ -82,13 +83,25 @@ app.www_path=/www/              html页面地址
     }
 ```
 
-## 表单参数
+## 上传文件 and 表单参数
 
-暂无
-
-## 上传文件
-
-暂无
+```java
+@Mapping(value = "post:/upload")
+    public Data uploadFile(Param param, HttpServletRequest request){
+        //获取表单数据
+        Map<String,Object> formMap = param.getFieldMap();
+        //获取上传文件
+        FileParam fileParam = param.getFile("photo");
+        //保存文件  -- uploadFile() 如果上传文件想存在项目目录内，请使用 2 或 3
+        //1
+        UploadHelper.uploadFile("/tmp/upload/",fileParam);
+        //2
+        UploadHelper.uploadFile(DataContext.getRequest().getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
+        //3
+        UploadHelper.uploadFile(request.getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
+        return new Data(fileParam.getFileName()+" "+fileParam.getFileSize());
+    }
+```
 
 ## 联系我
 

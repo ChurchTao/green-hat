@@ -39,6 +39,7 @@ public class FileUtil {
      * 创建文件
      */
     public static File createFile(String filePath) {
+        logger.debug("new file in {}",filePath);
         File file;
         try {
             file = new File(filePath);
