@@ -24,11 +24,6 @@ public class DispatcherServlet extends HttpServlet {
     private RequestHandler requestHandler = new RequestHandler();
 
     @Override
-    public void init() throws ServletException {
-
-    }
-
-    @Override
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         // 设置请求编码方式
         req.setCharacterEncoding(ConfigNames.UTF_8);

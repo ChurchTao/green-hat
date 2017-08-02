@@ -27,6 +27,8 @@ public class ServletInitListener implements ServletContextListener {
         // 初始化相关 Helper 类
         GreenHatLoader.init();
         addServletMapping(servletContext);
+
+        UploadHelper.init(servletContext);
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

@@ -47,7 +47,7 @@ public final class IocLoader {
                             }
                         }
                     }
-                    logger.info("IocLoader total [autowired] [{}] bean in [{}] ~",beanFields.length,beanClass.getName());
+               //     logger.info("IocLoader total [autowired] [{}] bean in [{}] ~",beanFields.length,beanClass.getName());
                 }
             }
         } catch (Exception e) {

@@ -17,6 +17,7 @@ public final class BeanLoader {
     private static final Map<Class<?>, Object> Beans = new HashMap<Class<?>, Object>();
 
     static {
+        Beans.clear();
         logger.info("BeanLoader init start!");
         try {
             // 获取应用包路径下所有的类

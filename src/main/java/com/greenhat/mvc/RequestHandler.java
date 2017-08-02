@@ -28,9 +28,14 @@ public class RequestHandler {
         Class<?> controllerClass = handler.getControllerClass();
         Object controllerBean = BeanLoader.getBean(controllerClass);
 
-        Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
+        Param param;
+        if (UploadHelper.isMultipart(req)){
+            param = UploadHelper.createParam(req);
+        }else {
+            Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
+            param = new Param(paramMap);
+        }
 
-        Param param = new Param(paramMap);
         Method actionMethod = handler.getActionMethod();
         actionMethod.setAccessible(true); // 取消类型安全检测（可提高反射性能）
         Object result = executeMethod(controllerBean,actionMethod,req,res,param);
