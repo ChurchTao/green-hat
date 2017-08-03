@@ -71,7 +71,7 @@ public class UploadHelper {
                                 String fieldValue = fileItem.getString("UTF-8");
                                 formParamList.add(new FormParam(fieldName,fieldValue));
                             }else {
-                                String fileName = FileUtil.getRealFileName(new String(fileItem.getName().getBytes(),"UTF-8"));
+                                String fileName = FileUtil.getRealFileName(new String(fileItem.getName().getBytes("utf-8"),"utf-8"));
                                 if (StringUtil.isNotEmpty(fileName)){
                                     long fileSize = fileItem.getSize();
                                     String contentType = fileItem.getContentType();
@@ -94,7 +94,8 @@ public class UploadHelper {
     /**
      * 上传文件
      */
-    public static void uploadFile(String basePath, FileParam fileParam) {
+    public static void uploadFile(String basePath, FileParam fileParam) throws IOException {
+        FileOutputStream fileOutputStream =null;
         try {
             if (fileParam != null) {
                 // 创建文件路径（绝对路径）
@@ -102,12 +103,15 @@ public class UploadHelper {
                 FileUtil.createFile(filePath);
                 // 执行流复制操作
                 InputStream inputStream = new BufferedInputStream(fileParam.getInputStream());
-                OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath));
+                fileOutputStream =new FileOutputStream(filePath);
+                OutputStream outputStream = new BufferedOutputStream(fileOutputStream);
                 StreamUtil.copyStream(inputStream, outputStream);
             }
         } catch (Exception e) {
             logger.error("上传文件出错！", e);
             throw new RuntimeException(e);
+        } finally {
+            fileOutputStream.close();
         }
     }
 

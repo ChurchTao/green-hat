@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 public final class GreenHatLoader {
     private static final Logger logger = LoggerFactory.getLogger(GreenHatLoader.class);
     public static void init() {
+        Banner.startBanner();
         logger.info("GreenHat init start!");
         Class<?>[] classes = {
                 ClassLoader.class,
@@ -21,7 +22,6 @@ public final class GreenHatLoader {
                 IocLoader.class,
                 ControllerLoader.class
         };
-        Banner.startBanner();
         for (Class<?> cls : classes) {
             //todo 这边改过 true
             ClassUtil.loadClass(cls.getName(), true);

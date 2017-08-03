@@ -48,7 +48,7 @@ public class StreamUtil {
     public static String getString(InputStream is) {
         StringBuilder sb = new StringBuilder();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
