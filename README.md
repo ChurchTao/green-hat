@@ -44,7 +44,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 </dependency>
 ```
 
-接下来在resources目录下创建 `config.properties` 用来存放配置信息
+接下来在resources目录下创建 `config.properties` 用来存放配置信息，除了包地址必须，其他都选填[有默认值]
 
 ```properties
 jdbc.driver=com.mysql.jdbc.Driver
