@@ -1,7 +1,6 @@
 package com.greenhat.loader;
 
 
-
 import com.greenhat.annotation.Mapping;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Request;
@@ -14,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,29 +23,30 @@ import java.util.regex.Pattern;
 public final class ControllerLoader {
     private static final Logger logger = LoggerFactory.getLogger(ControllerLoader.class);
 
-    private static final Map<Request,Handler> actionMap = new HashMap<Request, Handler>();
+    private static final Map<Request, Handler> actionMap = new ConcurrentHashMap<Request, Handler>();
 
     static {
         logger.info("ControllerLoader init start!");
         List<Class<?>> controllerList = ClassLoader.getControllerClasses();
-        if (CollectionUtil.isNotEmpty(controllerList)){
-            for (Class<?> controllerClass:controllerList){
+        if (CollectionUtil.isNotEmpty(controllerList)) {
+            for (Class<?> controllerClass : controllerList) {
                 Method[] methods = controllerClass.getDeclaredMethods();
-                if (ArrayUtil.isNotEmpty(methods)){
-                    for (Method method:methods){
-                        if (method.isAnnotationPresent(Mapping.class)){
+                if (ArrayUtil.isNotEmpty(methods)) {
+                    for (Method method : methods) {
+                        if (method.isAnnotationPresent(Mapping.class)) {
                             Mapping action = method.getAnnotation(Mapping.class);
                             String mapping = action.value();
-                            if (mapping.matches("\\w+:/\\w*")){
-                                String[] array =mapping.split(":");
-                                if (ArrayUtil.isNotEmpty(array)&& array.length==2){
-                                    String requestMethod = array[0];
-                                    String requestPath = array[1];
-                                    Request request = new Request(requestMethod,requestPath);
-                                    Handler handler = new Handler(controllerClass,method);
-                                    actionMap.put(request,handler);
-                                    logger.info("Put [{}] into [{}] Action Mapping~",array[0]+array[1],controllerClass.getName());
-                                }
+                            String requestMethod = action.method().toString();
+                            if (!mapping.startsWith("/")) {
+                                StringBuilder builder = new StringBuilder(mapping);
+                                builder.insert(0, "/");
+                                mapping = builder.toString();
+                            }
+                            if (mapping.matches("/[./\\w_]+")) {
+                                Request request = new Request(requestMethod, mapping);
+                                Handler handler = new Handler(controllerClass, method);
+                                actionMap.put(request, handler);
+                                logger.info("Put [{}] into [{}] Action Mapping~", mapping, controllerClass.getName());
                             }
                         }
                     }
@@ -54,7 +55,7 @@ public final class ControllerLoader {
         }
     }
 
-    public static Handler getHandler(String method,String path){
+    public static Handler getHandler(String method, String path) {
 
         Handler handler = null;
         for (Map.Entry<Request, Handler> actionEntry : actionMap.entrySet()) {
@@ -71,6 +72,6 @@ public final class ControllerLoader {
                 break;
             }
         }
-            return handler;
+        return handler;
     }
 }

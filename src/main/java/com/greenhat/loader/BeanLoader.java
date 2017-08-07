@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by jiacheng on 2017/7/19.
@@ -14,7 +15,7 @@ import java.util.Map;
 public final class BeanLoader {
     private static final Logger logger = LoggerFactory.getLogger(BeanLoader.class);
 
-    private static final Map<Class<?>, Object> Beans = new HashMap<Class<?>, Object>();
+    private static final Map<Class<?>, Object> Beans = new ConcurrentHashMap<Class<?>, Object>();
 
     static {
         Beans.clear();

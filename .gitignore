@@ -17,6 +17,8 @@ target/
 *.diff
 *.patch
 *.tmp
-
+/src/main/java/com/greenhat/test
+/src/main/resources
+/src/main/webapp
 .DS_Store
 Thumbs.db

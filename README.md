@@ -65,28 +65,31 @@ app.upload_limit=10             上传文件大小[默认10mb]
     @Autowired
     private UserService userService;  //自动注入
 
-    @Mapping(value = "get:/index")
+    @Mapping(value = "/index",method = RequestMethod.get)
     public View index(){
-        DataContext.Session.put("loginUser",man);//操作session
-        userService.out();
-        return new View("index.jsp"); //返回视图 可addModel
+        //man= BeanHelper.getBean(Man.class);
+        man.setName("church");
+        DataContext.Session.put("loginUser",man);
+        return new View("index.jsp");
     }
 ```
 
 ## REST URL参数获取
 
 ```java
- @Mapping(value = "get:/index2")
+    @Mapping(value = "/index2",method = RequestMethod.get)
     public Data index(Param param){
+        userService.out();
         Man man2 = DataContext.Session.get("loginUser");
-        return new Data(param); //把接受到的参数直接转成json输出 [当然你也可以自定义类型，都可以自动转成json]
+        man2.say();
+        return new Data(param);
     }
 ```
 
 ## 上传文件 and 表单参数
 
 ```java
-@Mapping(value = "post:/upload")
+    @Mapping(value = "/upload",method = RequestMethod.post)
     public Data uploadFile(Param param, HttpServletRequest request){
         //获取表单数据
         Map<String,Object> formMap = param.getFieldMap();
@@ -94,11 +97,15 @@ app.upload_limit=10             上传文件大小[默认10mb]
         FileParam fileParam = param.getFile("photo");
         //保存文件  -- uploadFile() 如果上传文件想存在项目目录内，请使用 2 或 3
         //1
-        UploadHelper.uploadFile("/tmp/upload/",fileParam);
+        try {
+            UploadHelper.uploadFile("/tmp/upload/",fileParam);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //2
-        UploadHelper.uploadFile(DataContext.getRequest().getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
+        //UploadHelper.uploadFile(DataContext.getRequest().getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
         //3
-        UploadHelper.uploadFile(request.getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
+        //UploadHelper.uploadFile(request.getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
         return new Data(fileParam.getFileName()+" "+fileParam.getFileSize());
     }
 ```

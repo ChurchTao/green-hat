@@ -2,6 +2,7 @@ package com.greenhat.mvc;
 
 
 
+import com.greenhat.ConfigNames;
 import com.greenhat.loader.BeanLoader;
 import com.greenhat.loader.ConfigLoader;
 import com.greenhat.mvc.bean.Data;
@@ -39,7 +40,7 @@ public class RequestHandler {
         Method actionMethod = handler.getActionMethod();
         actionMethod.setAccessible(true); // 取消类型安全检测（可提高反射性能）
         Object result = executeMethod(controllerBean,actionMethod,req,res,param);
-
+        res.setHeader("X-Powered-By", "GreenHat(" + ConfigNames.VERSION + ")");
 
         if (result instanceof View) {
             View view = (View) result;
