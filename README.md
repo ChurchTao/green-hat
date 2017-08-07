@@ -20,7 +20,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 * [x] 支持html | jsp | json 输出
 * [x] 名字奇葩
 * [x] 正在完善，Bug多多
-* [ ] 暂不支持 AOP
+* [x] 已经支持 AOP
 * [ ] 暂不支持 ORM 数据库这部分还在琢磨
 
 ## 概述
