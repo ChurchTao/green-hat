@@ -2,10 +2,7 @@ package com.greenhat.loader;
 
 import com.greenhat.annotation.Aspect;
 import com.greenhat.annotation.Service;
-import com.greenhat.proxy.AspectProxy;
-import com.greenhat.proxy.Proxy;
-import com.greenhat.proxy.ProxyManager;
-import com.greenhat.proxy.TransactionProxy;
+import com.greenhat.proxy.*;
 import com.greenhat.util.CollectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +14,14 @@ import java.util.*;
  * Created by jiacheng on 2017/7/21.
  */
 public final class AopLoader {
+    /**
+     * 原理：获取@Service下所有的方法，如果方法上有@Transaction就执行 TransactionProxy.class上面的代理方法[即事务]
+     *      没有则忽略。
+     *
+     *      获取@Aspect 中的 value() 获取value()中的注解，获取该注解注释的类，对这些类的方法执行你写的XXXAspect.java
+     *      中的before after end 等重写方法。
+     *      当然，注解不一定要框架中自带的注解类，可以自己定义一个 @DIY.class 类， 只要它是@Target(ElementType.TYPE)的
+     */
     private static final Logger logger = LoggerFactory.getLogger(AopLoader.class);
     static {
         logger.info("AopLoader init start!");
@@ -53,7 +58,6 @@ public final class AopLoader {
     private static Map<Class<?>, List<Class<?>>> createProxyMap() throws Exception {
         Map<Class<?>, List<Class<?>>> proxyMap = new LinkedHashMap<Class<?>, List<Class<?>>>();
         // 添加相关代理
-
         addAspectProxy(proxyMap);      // 切面代理
         addTransactionProxy(proxyMap); // 事务代理
         return proxyMap;
@@ -75,7 +79,7 @@ public final class AopLoader {
         }
     }
 
-    private static void addTransactionProxy(Map<Class<?>, List<Class<?>>> proxyMap) {
+    private static void addTransactionProxy(Map<Class<?>,List<Class<?>>> proxyMap) {
         // 使用 TransactionProxy 代理所有 Service 类
         List<Class<?>> serviceClassList = ClassLoader.getClassListByAnnotation(Service.class);
         proxyMap.put(TransactionProxy.class, serviceClassList);
