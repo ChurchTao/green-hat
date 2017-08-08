@@ -110,6 +110,48 @@ app.upload_limit=10             上传文件大小[默认10mb]
     }
 ```
 
+## 写切面方法
+
+```java
+@Aspect(Controller.class)
+public class ControllerAspect extends AspectProxy {
+    private static final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
+    private long begin;
+    @Override
+    public void before(Class<?> cls, Method method, Object[] params) {
+        logger.info("--------begin-------");
+        logger.info("class: [{}]",cls.getName());
+        logger.info("method: [{}]",method.getName());
+        begin =System.currentTimeMillis();
+    }
+    @Override
+    public void after(Class<?> cls, Method method, Object[] params, Object result) {
+        logger.info("time: [{}] ms",System.currentTimeMillis()-begin);
+        logger.info("--------end-------");
+    }
+}
+```
+新建上述的切面类之后，在被 @Controller 注解的类中需要被代理的方法上注解 @AspectMethod
+```java
+ @AspectMethod
+    @Mapping(value = "/index",method = RequestMethod.get)
+    public View index(){
+        //man= BeanHelper.getBean(Man.class);
+        man.setName("church");
+        DataContext.Session.put("loginUser",man);
+        return new View("index.jsp");
+    }
+```
+运行结果：[控制台log日志输出如下~]
+```text
+ com.greenhat.mvc.DispatcherServlet | Handled get://index
+ com.greenhat.test.ControllerAspect | --------begin-------
+ com.greenhat.test.ControllerAspect | class: [com.greenhat.test.IndexController]
+ com.greenhat.test.ControllerAspect | method: [index]
+ com.greenhat.test.ControllerAspect | time: [22] ms
+ com.greenhat.test.ControllerAspect | --------end-------
+```
+
 ## 联系我
 
 - Mail: swkzymlyy#gmail.com
