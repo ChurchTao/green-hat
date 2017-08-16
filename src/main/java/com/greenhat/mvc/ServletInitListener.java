@@ -1,18 +1,23 @@
 package com.greenhat.mvc;
 
-
-
 import com.greenhat.GreenHatLoader;
 import com.greenhat.loader.ConfigLoader;
+import com.greenhat.util.ClassUtil;
 import com.greenhat.util.StringUtil;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
+import javassist.ClassPool;
+import javassist.LoaderClassPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRegistration;
 import javax.servlet.annotation.WebListener;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 
 /**
  * Created by jiacheng on 2017/7/25.
@@ -20,6 +25,11 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ServletInitListener implements ServletContextListener {
     private static final Logger logger = LoggerFactory.getLogger(ServletInitListener.class);
+    private static final ClassPool cpool = new ClassPool(true);
+    static {
+        cpool.appendClassPath(new LoaderClassPath(ClassUtil.getClassLoader()));
+        cpool.importPackage("java.util");
+    }
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         // 获取 ServletContext
@@ -27,12 +37,12 @@ public class ServletInitListener implements ServletContextListener {
         // 初始化相关 Helper 类
         GreenHatLoader.init();
         addServletMapping(servletContext);
-
         UploadHelper.init(servletContext);
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
+        //手动取消注册的 数据库驱动
+        avoidGarbageCollectionWarning();
     }
 
     private void addServletMapping(ServletContext context) {
@@ -60,6 +70,34 @@ public class ServletInitListener implements ServletContextListener {
         String jspPath = ConfigLoader.getAppJspPath();
         if (StringUtil.isNotEmpty(jspPath)) {
             jspServlet.addMapping(jspPath + "*");
+        }
+    }
+    private void avoidGarbageCollectionWarning()
+    {
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        Driver d = null;
+        while (drivers.hasMoreElements()) {
+            try {
+                d = drivers.nextElement();
+                if(d.getClass().getClassLoader() == cl) {
+                    DriverManager.deregisterDriver(d);
+                    logger.info("Driver {} unregistered", d);
+                }
+                else {
+                    logger.info("Driver {} not unregistered because it might be in use else where", d.toString());
+                }
+            }
+            catch (SQLException ex) {
+                logger.warn(String.format("Error unregistering driver %s, exception: %s", d.toString(), ex.toString()));
+            }
+        }
+        try {
+            AbandonedConnectionCleanupThread.shutdown();
+        }
+        catch (InterruptedException e) {
+            logger.warn("SEVERE problem cleaning up: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -30,24 +30,21 @@ public final class IocLoader {
                 // 获取 Bean 类中所有的字段（不包括父类中的方法）
                 Field[] beanFields = beanClass.getDeclaredFields();
                 if (ArrayUtil.isNotEmpty(beanFields)) {
-                    // 遍历所有的 Bean 字段
                     for (Field beanField : beanFields) {
-                        // 判断当前 Bean 字段是否带有 Inject 注解
                         if (beanField.isAnnotationPresent(Autowired.class)) {
                             Class<?> beanFieldClass = beanField.getType();
-                            Object FieldInstance = beanMap.get(beanFieldClass);
-                            if (FieldInstance != null) {
+                            Object fieldInstance = beanMap.get(beanFieldClass);
+                            if (fieldInstance != null) {
                                 beanField.setAccessible(true); // 将字段设置为 public
-                                beanField.set(beanInstance, FieldInstance); // 设置字段初始值
+                                beanField.set(beanInstance, fieldInstance); // 设置字段初始值
                             }else {
-                                FieldInstance = beanFieldClass.newInstance();
-                                beanMap.put(beanFieldClass,FieldInstance);
+                                fieldInstance = beanFieldClass.newInstance();
+                                beanMap.put(beanFieldClass,fieldInstance);
                                 beanField.setAccessible(true); // 将字段设置为 public
-                                beanField.set(beanInstance, FieldInstance); // 设置字段初始值
+                                beanField.set(beanInstance, fieldInstance); // 设置字段初始值
                             }
                         }
                     }
-               //     logger.info("IocLoader total [autowired] [{}] bean in [{}] ~",beanFields.length,beanClass.getName());
                 }
             }
         } catch (Exception e) {

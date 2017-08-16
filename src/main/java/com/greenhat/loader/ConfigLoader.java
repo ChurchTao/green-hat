@@ -34,6 +34,9 @@ public final class ConfigLoader {
     public static String getJdbcURL() {
         return PropsUtil.getString(configProps, ConfigNames.JDBC_URL);
     }
+    public static String getJdbcType(){
+        return PropsUtil.getString(configProps, ConfigNames.JDBC_TYPE,"mysql");
+    }
 
     /**
      * 获取jdbc username

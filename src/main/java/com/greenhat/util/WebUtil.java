@@ -31,14 +31,15 @@ public class WebUtil {
     /**
      * 将数据以 JSON 格式写入响应中
      */
-    public static void writeJSON(HttpServletResponse response, Object data) {
+    public static <T> void writeJSON(HttpServletResponse response,Object data,Class<T> tClass) {
         try {
             // 设置响应头
             response.setContentType("application/json"); // 指定内容类型为 JSON 格式
             response.setCharacterEncoding(ConfigNames.UTF_8); // 防止中文乱码
             // 向响应中写入数据
             PrintWriter writer = response.getWriter();
-            writer.write(JsonUtil.toJSON(data)); // 转为 JSON 字符串
+            T tdata = tClass.cast(data);
+            writer.write(JsonUtil.toJSON(tdata)); // 转为 JSON 字符串
             writer.flush();
             writer.close();
         } catch (Exception e) {

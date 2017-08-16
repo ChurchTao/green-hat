@@ -18,7 +18,6 @@ public final class BeanLoader {
     private static final Map<Class<?>, Object> Beans = new ConcurrentHashMap<Class<?>, Object>();
 
     static {
-        Beans.clear();
         logger.info("BeanLoader init start!");
         try {
             // 获取应用包路径下所有的类
@@ -34,6 +33,10 @@ public final class BeanLoader {
                     // 将 Bean 实例放入 Bean Map 中（键为 Bean 类，值为 Bean 实例）
                     Beans.put(cls, beanInstance);
                 }
+//                if (cls.isAnnotationPresent(com.greenhat.annotation.DAO.class)){
+//                    Beans.put(cls,DAOFactory.getDAO(cls));
+//                }
+
             }
             logger.info("BeanLoader total loaded [{}] bean!",Beans.size());
         } catch (Exception e) {

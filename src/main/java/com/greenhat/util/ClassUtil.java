@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,6 +42,11 @@ public  class ClassUtil {
             classpath = resource.getPath();
         }
         return classpath;
+    }
+    public static Class<?> getEntityClass(Class<?> cls){
+        Type genType = cls.getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class<?>) params[0];
     }
 
     /**

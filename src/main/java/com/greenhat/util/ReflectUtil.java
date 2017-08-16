@@ -19,8 +19,6 @@ public class ReflectUtil {
 
 			int argCount = args == null ? 0 : args.length;
 
-			// 参数个数对不上
-		//	ExceptionUtil.makeRunTimeWhen(argCount != types.length, "%s in %s", method.getName(), bean);
 			
 			// 转参数类型
 			for (int i = 0; i < argCount; i++) {
