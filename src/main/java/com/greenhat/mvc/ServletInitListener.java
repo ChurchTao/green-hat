@@ -25,11 +25,7 @@ import java.util.Enumeration;
 @WebListener
 public class ServletInitListener implements ServletContextListener {
     private static final Logger logger = LoggerFactory.getLogger(ServletInitListener.class);
-    private static final ClassPool cpool = new ClassPool(true);
-    static {
-        cpool.appendClassPath(new LoaderClassPath(ClassUtil.getClassLoader()));
-        cpool.importPackage("java.util");
-    }
+
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         // 获取 ServletContext

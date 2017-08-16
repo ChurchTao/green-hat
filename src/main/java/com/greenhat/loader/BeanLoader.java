@@ -1,6 +1,7 @@
 package com.greenhat.loader;
 
 import com.greenhat.annotation.*;
+import com.greenhat.jdbc.DAOFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +34,9 @@ public final class BeanLoader {
                     // 将 Bean 实例放入 Bean Map 中（键为 Bean 类，值为 Bean 实例）
                     Beans.put(cls, beanInstance);
                 }
-//                if (cls.isAnnotationPresent(com.greenhat.annotation.DAO.class)){
-//                    Beans.put(cls,DAOFactory.getDAO(cls));
-//                }
+                if (cls.isAnnotationPresent(com.greenhat.annotation.DAO.class)){
+                    Beans.put(cls, DAOFactory.getDAO(cls));
+                }
 
             }
             logger.info("BeanLoader total loaded [{}] bean!",Beans.size());

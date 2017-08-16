@@ -1,8 +1,10 @@
 package com.greenhat;
 
 import com.greenhat.banner.Banner;
+import com.greenhat.jdbc.DAOFactory;
 import com.greenhat.loader.*;
 import com.greenhat.loader.ClassLoader;
+import com.greenhat.orm.EntityHelper;
 import com.greenhat.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,8 @@ public final class GreenHatLoader {
         logger.info("GreenHat init start!");
         Class<?>[] classes = {
                 ClassLoader.class,
+                EntityHelper.class,
+                DAOFactory.class,
                 BeanLoader.class,
                 AopLoader.class,
                 IocLoader.class,

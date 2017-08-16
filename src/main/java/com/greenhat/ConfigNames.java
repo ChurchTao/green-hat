@@ -8,6 +8,7 @@ public interface ConfigNames {
     String CONFIG_PROPS = "config.properties";
     String JDBC_DRIVER = "jdbc.driver";
     String JDBC_URL = "jdbc.url";
+    String JDBC_TYPE ="jdbc.type";
     String JDBC_USERNAME = "jdbc.username";
     String JDBC_PASSWORD = "jdbc.password";
     String APP_BASE_PACKAGE = "app.base_package";
