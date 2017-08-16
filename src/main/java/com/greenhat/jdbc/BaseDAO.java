@@ -6,9 +6,13 @@ import com.greenhat.orm.Query;
  * Created by jiacheng on 2017/8/10.
  */
 public class BaseDAO<T> implements DAO<T> {
-    Class<T> tClass;
-    String entityName;
-    String keyField;
+    private Class<T> tClass;
+    private String entityName;
+    private String keyField;
+
+    public void settClass(Class<T> tClass) {
+        this.tClass = tClass;
+    }
 
     public String getKeyField() {
         return keyField;

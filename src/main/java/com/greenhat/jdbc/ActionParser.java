@@ -64,6 +64,7 @@ public class ActionParser {
             CtMethod[] methods = ct.getMethods();
             parseMethods(cc, methods, entityClass);
             BaseDAO dao = (BaseDAO) cc.toClass().newInstance();
+            dao.settClass(entityClass);
             DAOFactory.register(daoClass, dao);
 //            return dao;
         } catch (Exception e) {

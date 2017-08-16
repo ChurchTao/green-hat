@@ -61,6 +61,7 @@ public class MethodCreator {
         resultMethod = baseMethod.replace("@{args}", getArgs(argsType));
         String params = getArgsArray(argsType);
         StringBuilder body = new StringBuilder();
+        body.append(params);
         String fieldName = queryMap.get("fieldName").toString();
         if (isList) {
             body.append("return Query.selectList(")

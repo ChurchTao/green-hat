@@ -94,7 +94,7 @@ public class UploadHelper {
     /**
      * 上传文件
      */
-    public static void uploadFile(String basePath, FileParam fileParam) throws IOException {
+    public static void uploadFile(String basePath, FileParam fileParam) {
         FileOutputStream fileOutputStream =null;
         try {
             if (fileParam != null) {
@@ -111,7 +111,11 @@ public class UploadHelper {
             logger.error("上传文件出错！", e);
             throw new RuntimeException(e);
         } finally {
-            fileOutputStream.close();
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                logger.error("fileOutputStream.close error!", e);
+            }
         }
     }
 
