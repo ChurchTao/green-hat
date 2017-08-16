@@ -36,6 +36,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 开始之前,首先 下载[源码](https://github.com/ChurchTao/green-hat),到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
 
 或者按下图所示操作：
+
 ![](http://182.254.156.252:9000/upload/2017/08/ohno1uckr4g4lrv7thbjup8qgb.png)
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
