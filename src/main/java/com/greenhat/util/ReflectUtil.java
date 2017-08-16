@@ -4,14 +4,6 @@ import java.lang.reflect.Method;
 
 public class ReflectUtil {
 
-	public static Object newInstance(String className) throws ClassNotFoundException{
-		Object object = Class.forName(className);
-		if(null != object){
-			return object;
-		}
-		return null;
-	}
-	
 	public static Object invokeMehod(Object bean, Method method,
 			Object... args) {
 		try {

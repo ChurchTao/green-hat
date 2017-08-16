@@ -18,12 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * Web 操作工具类
- *
- * @author huangyong
- * @since 1.0
- */
 public class WebUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(WebUtil.class);

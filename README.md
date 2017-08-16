@@ -1,9 +1,12 @@
 
 
-[![](http://115.159.181.84:9000/upload/2017/07/oe28fngd7sj7ep6pn6bua4f26m.png)](https://github.com/ChurchTao/green-hat)
+[![](http://shirley520.cn:9000/upload/2017/07/oe28fngd7sj7ep6pn6bua4f26m.png)](https://github.com/ChurchTao/green-hat)
 
 [Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhat-demo)&nbsp; | &nbsp;[English]()
 
+##当前版本更新:
+*更新了数据库驱动,提供基于方法名解析的动态生成抽象方法的功能。
+省去繁琐,大量重复的操作
 
 ## What is green-hat ?
 
@@ -18,10 +21,9 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 * [x] MVC框架，不依赖更多的库
 * [x] Spring注解风格
 * [x] 支持html | jsp | json 输出
-* [x] 名字奇葩
-* [x] 正在完善，Bug多多
 * [x] 已经支持 AOP
-* [ ] 暂不支持 ORM 数据库这部分还在琢磨
+* [x] 已经支持 ORM
+* [x] 强力JDBC支持,方法名解析,动态实现抽象方法
 
 ## 概述
 
@@ -32,7 +34,8 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 
 开始之前,首先 下载[源码](https://github.com/ChurchTao/green-hat),到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
 
-因为它还没有资格进入Maven中央仓库。
+或者按下图所示操作：
+![](http://182.254.156.252:9000/upload/2017/08/ohno1uckr4g4lrv7thbjup8qgb.png)
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
 
@@ -47,16 +50,20 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 接下来在resources目录下创建 `config.properties` 用来存放配置信息，除了包地址必须，其他都选填[有默认值]
 
 ```properties
-jdbc.driver=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://127.0.0.1:3306/book
-jdbc.username=root
-jdbc.password=root
 app.base_package=com.test       项目包地址[必须]
+
 app.jsp_path=/WEB-INF/view/     Jsp目录
 app.asset_path=/asset/          资源目录
 app.home_page=/index.html       主页
 app.www_path=/www/              html页面地址
 app.upload_limit=10             上传文件大小[默认10mb]
+
+#jdbc
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://127.0.0.1:3306/book?useUnicode=true&characterEncoding=UTF-8
+jdbc.type=mysql                 [sqlserver|oracle] 
+jdbc.username=root
+jdbc.password=root
 ```
 
 ## API示例
@@ -97,17 +104,69 @@ app.upload_limit=10             上传文件大小[默认10mb]
         FileParam fileParam = param.getFile("photo");
         //保存文件  -- uploadFile() 如果上传文件想存在项目目录内，请使用 2 或 3
         //1
-        try {
-            UploadHelper.uploadFile("/tmp/upload/",fileParam);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UploadHelper.uploadFile("/tmp/upload/",fileParam);
         //2
         //UploadHelper.uploadFile(DataContext.getRequest().getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
         //3
         //UploadHelper.uploadFile(request.getSession().getServletContext().getRealPath("/tmp/upload/"),fileParam);
         return new Data(fileParam.getFileName()+" "+fileParam.getFileSize());
     }
+```
+## DAO
+```java
+//将类继承与BaseDAO<?>并将实体类传入
+//框架就会自动提供 save delete update get 四个默认方法
+@DAO
+public abstract class BookDAO extends BaseDAO<Book> {
+    //需要框架来解析方法名的方法都注解上 @DAOMethod
+    //框架将自动根据 find  Book  By  Name 来解析动作动态生成实现类
+    @DAOMethod
+    public abstract List<Book> findBookByName(String name);
+    //也可以直接赋予 sql 参数按顺序放在方法的入参中
+    //框架也将自动执行sql返回相应的数据无需手动实现该方法
+    @DAOMethod(sql = "select * from book where name=?")
+    public abstract List<Book> find(String name);
+    
+    //当然，假如你想手动写一些查询，可以调用  Query.* 里面的方法实现
+    
+}
+```
+
+## Service
+```java
+@Service
+public class BookService {
+    @Autowired
+    BookDAO bookDAO;
+    
+    public List<Book> findBookByName(String name){
+        return bookDAO.findBookByName(name);
+    }
+
+    public Book get(int id){
+        return bookDAO.get(id,"bookId");
+    }
+}
+```
+
+## Controller中调用
+```java
+@Controller
+public class IndexController {
+
+    @Autowired
+    BookService bookService;
+    
+    @Mapping(value = "/conn")
+    public List<Book> conn(){
+        return bookService.findBookByName("鲁滨逊漂流记");
+    }
+    
+    @Mapping(value = "/getBook")
+    public Book getBook(){
+        return bookService.get(1);
+    }
+}
 ```
 
 ## 写切面方法
