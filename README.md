@@ -81,11 +81,7 @@ jdbc.password=root
         DataContext.Session.put("loginUser",man);
         return new View("index.jsp");
     }
-```
-
-## REST URL参数获取
-
-```java
+    
     @Mapping(value = "/index2",method = RequestMethod.get)
     public Data index(Param param){
         userService.out();
