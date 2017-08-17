@@ -4,7 +4,8 @@
 
 [Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhat-demo)&nbsp; | &nbsp;[English]()
 
-##当前版本更新:
+## 当前版本更新:
+
 *更新了数据库驱动,提供基于方法名解析的动态生成抽象方法的功能。
 省去繁琐,大量重复的操作
 
@@ -35,6 +36,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 开始之前,首先 下载[源码](https://github.com/ChurchTao/green-hat),到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
 
 或者按下图所示操作：
+
 ![](http://182.254.156.252:9000/upload/2017/08/ohno1uckr4g4lrv7thbjup8qgb.png)
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
@@ -79,11 +81,7 @@ jdbc.password=root
         DataContext.Session.put("loginUser",man);
         return new View("index.jsp");
     }
-```
-
-## REST URL参数获取
-
-```java
+    
     @Mapping(value = "/index2",method = RequestMethod.get)
     public Data index(Param param){
         userService.out();
