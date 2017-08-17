@@ -31,14 +31,14 @@ public class TransactionProxy implements Proxy {
             FLAG_HOLDER.set(true);
             try {
                 DatabaseLoader.beginTransaction();
-                logger.debug("开始事务");
+                logger.debug("start Transaction");
                 result = proxyChain.doProxyChain();
                 DatabaseLoader.commitTransaction();
-                logger.debug("提交事务");
+                logger.debug("commit Transaction");
             }catch (Exception e){
                 DatabaseLoader.rollbackTransaction();
-                logger.debug("回滚事务");
-                e.printStackTrace();
+                logger.debug("rollback Transaction");
+                logger.error("because :{}",e);
             }finally {
                 FLAG_HOLDER.remove();
             }

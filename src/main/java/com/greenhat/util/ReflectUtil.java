@@ -19,7 +19,6 @@ public class ReflectUtil {
 
 			return method.invoke(bean, args);
 		} catch (Exception e) {
-			//ExceptionUtil.makeRuntime(e);
 			e.printStackTrace();
 		}
 		return null;

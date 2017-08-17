@@ -54,7 +54,7 @@ public class DispatcherServlet extends HttpServlet {
             logger.info("Handled {}",requestMethod+":/"+requestPath);
             requestHandler.doHandel(req, res, handler);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("请检查config.properties 是否设置正确 {}",e);
         } finally {
             // 销毁 DataContext
             DataContext.destroy();

@@ -41,7 +41,7 @@ public final class AopLoader {
                 BeanLoader.setBean(targetClass, proxyInstance);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("代理创建失败：{}",e);
         }
     }
 

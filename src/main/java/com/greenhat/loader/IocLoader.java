@@ -48,7 +48,7 @@ public final class IocLoader {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Beans inject Error!");
         }
     }
 }

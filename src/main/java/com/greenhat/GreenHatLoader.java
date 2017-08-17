@@ -27,7 +27,6 @@ public final class GreenHatLoader {
                 ControllerLoader.class
         };
         for (Class<?> cls : classes) {
-            //todo 这边改过 true
             ClassUtil.loadClass(cls.getName(), true);
         }
         logger.info("GreenHat init done!");

@@ -38,7 +38,7 @@ public final class DatabaseLoader {
             logger.error("获取数据库连接出错！", e);
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error("未找到数据库驱动，请检查config.propties中的驱动名称是否正确，或者jar是否引入！", e);
         }
         return conn;
     }

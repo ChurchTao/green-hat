@@ -17,14 +17,7 @@ public class InstanceFactory {
      * 用于缓存对应的实例
      */
     private static final Map<String, Object> cache = new ConcurrentHashMap<String, Object>();
-    /**
-     * DataSourceFactory
-     */
     private static final String DS_FACTORY = "ds_factory";
-
-    /**
-     * DataAccessor
-     */
     private static final String DATA_ACCESSOR = "data_accessor";
     public static DataSourceFactory getDataSourceFactory() {
         return getInstance(DS_FACTORY, DefaultDataSourceFactory.class);

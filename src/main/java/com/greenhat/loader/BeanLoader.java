@@ -41,7 +41,7 @@ public final class BeanLoader {
             }
             logger.info("BeanLoader total loaded [{}] bean!",Beans.size());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("BeanLoader loade Error!");
         }
 
     }
