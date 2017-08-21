@@ -150,22 +150,21 @@ public class MethodCreator {
         Class<?> entityClass = (Class<?>) queryMap.get("entityClass");
         String resultMethod;
         resultMethod = baseMethod.replace("@{args}", getArgs(argsType));
-        String params = getArgsArray(argsType);
         StringBuilder body = new StringBuilder();
-        body.append(params);
         String orderBy = queryMap.get("orderBy").toString();
         int limit = (int) queryMap.get("limit");
         if (orderBy.equals("")) {
-            body.append("return Query.selectList(")
+            body.append("return Query.selectList(1,")
+                    .append(limit).append(",")
                     .append(entityClass.getName())
-                    .append(".class").append(");");
+                    .append(".class,\"\",\"\",null);");
         } else {
             body.append("return Query.selectList(1,")
                     .append(limit).append(",")
                     .append(entityClass.getName())
                     .append(".class,\"\",\"")
                     .append(orderBy)
-                    .append("\");");
+                    .append("\",null);");
         }
 
         return resultMethod.replace("@{methodBody}", body.toString());
