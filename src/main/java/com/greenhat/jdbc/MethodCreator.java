@@ -1,6 +1,8 @@
 package com.greenhat.jdbc;
 
 import javassist.CtClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -8,10 +10,11 @@ import java.util.Map;
  * Created by jiacheng on 2017/8/10.
  */
 public class MethodCreator {
-
     public static String createMethod(CreateWay type, Map<String, Object> queryMap) {
         String baseMethod = createBase(queryMap);
         switch (type) {
+            case noCondition:
+                return createMethodWithNoCondition(baseMethod, queryMap);
             case get:
                 return createMethodByGet(baseMethod, queryMap);
             case sql:
@@ -69,8 +72,8 @@ public class MethodCreator {
                     .append(".class,\"").append(fieldName)
                     .append(" = ? \"")
                     .append(",params").append(");");
-        }else {
-            body.append("return Query.select(")
+        } else {
+            body.append("return (" + entityClass.getName() + ")Query.select(")
                     .append(entityClass.getName())
                     .append(".class,\"").append(fieldName)
                     .append(" = ? \"")
@@ -142,6 +145,32 @@ public class MethodCreator {
         return resultMethod.replace("@{methodBody}", body.toString());
     }
 
+    private static String createMethodWithNoCondition(String baseMethod, Map<String, Object> queryMap) {
+        CtClass[] argsType = (CtClass[]) queryMap.get("args");
+        Class<?> entityClass = (Class<?>) queryMap.get("entityClass");
+        String resultMethod;
+        resultMethod = baseMethod.replace("@{args}", getArgs(argsType));
+        String params = getArgsArray(argsType);
+        StringBuilder body = new StringBuilder();
+        body.append(params);
+        String orderBy = queryMap.get("orderBy").toString();
+        int limit = (int) queryMap.get("limit");
+        if (orderBy.equals("")) {
+            body.append("return Query.selectList(")
+                    .append(entityClass.getName())
+                    .append(".class").append(");");
+        } else {
+            body.append("return Query.selectList(1,")
+                    .append(limit).append(",")
+                    .append(entityClass.getName())
+                    .append(".class,\"\",\"")
+                    .append(orderBy)
+                    .append("\");");
+        }
+
+        return resultMethod.replace("@{methodBody}", body.toString());
+    }
+
     private static String createMethodByQuery(String baseMethod, Map<String, Object> queryMap) {
         return "";
     }
@@ -168,15 +197,16 @@ public class MethodCreator {
         }
         return args;
     }
-    private static String getArgsArray(CtClass[] argsType){
-        String params = "";
+
+    private static String getArgsArray(CtClass[] argsType) {
+        String params = "Object[] params = new Object[0];";
         if (argsType != null && argsType.length > 0) {
             StringBuilder builder = new StringBuilder();
             builder.append("Object[] params = new Object[").append(argsType.length).append("];");
             for (int i = 0; i < argsType.length; i++) {
                 builder.append("params[").append(i).append("] = arg").append(i).append(";");
             }
-            params=builder.toString();
+            params = builder.toString();
         }
         return params;
     }

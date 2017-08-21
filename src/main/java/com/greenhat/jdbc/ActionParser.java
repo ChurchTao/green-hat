@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public class ActionParser {
     private static final AtomicInteger counter = new AtomicInteger(0);
     private static final String DEFAULT_PARENT_CLASS_NAME = "com.greenhat.jdbc.BaseDAO";
+    private static final Pattern findPatternBase = Pattern.compile("^(find|get)([A-Z][\\w$_]*)$");
     private static final Pattern findPattern3 = Pattern.compile("^(find|query|get|delete|remove)([A-Z][\\w$_]*)?By([A-Z][\\w$_]*)$");
 
     private static final ClassPool cpool = new ClassPool(true);
@@ -66,7 +67,6 @@ public class ActionParser {
             BaseDAO dao = (BaseDAO) cc.toClass().newInstance();
             dao.settClass(entityClass);
             DAOFactory.register(daoClass, dao);
-//            return dao;
         } catch (Exception e) {
             throw new IllegalStateException("daoClass[" + daoClass + "] create proxy entity failed.", e);
         } finally {
@@ -106,7 +106,20 @@ public class ActionParser {
                         break;
                 }
             } else {
-                throw new IllegalStateException("method[" + fn + "] is invalid.");
+                 matcher = findPatternBase.matcher(fn);
+                 if (matcher.find()){
+                     action = matcher.group(1);
+                     String findEntity = StringUtils.uncapitalize(matcher.group(2));
+                     switch (action) {
+                         case "find":
+                         case "query":
+                         case "get":
+                             createNoCondition(cc, m, findEntity, entityClass);
+                             break;
+                     }
+                 }else {
+                     throw new IllegalStateException("method[" + fn + "] is invalid.");
+                 }
             }
         }
     }
@@ -181,6 +194,15 @@ public class ActionParser {
         ctx.put("orderBy", an.orderBy());
         ctx.put("limit", an.limit());
         createMethod(cc, m, CreateWay.find, ctx);
+    }
+    private static void createNoCondition(CtClass cc, CtMethod m, String findWhat, Class<?> entityClass) throws Exception {
+        DAOMethod an = (DAOMethod) m.getAnnotation(DAOMethod.class);
+        Map<String, Object> ctx = new HashMap<String, Object>();
+        putBase(entityClass, m, ctx);
+        ctx.put("findWhat", findWhat);
+        ctx.put("orderBy", an.orderBy());
+        ctx.put("limit", an.limit());
+        createMethod(cc, m, CreateWay.noCondition, ctx);
     }
 
     private static void putBase(Class<?> entityClass, CtMethod m, Map<String, Object> ctx) throws Exception {
