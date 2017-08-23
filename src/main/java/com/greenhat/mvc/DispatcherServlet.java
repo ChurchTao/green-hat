@@ -48,6 +48,7 @@ public class DispatcherServlet extends HttpServlet {
             String path_404 = ConfigLoader.getString(ConfigNames.APP_PATH_404);
             if (path_404!=null&&!path_404.equals("")){
                 WebUtil.forwardRequest(ConfigLoader.getAppWwwPath()+path_404, req, res);
+                return;
             }else {
                 WebUtil.sendError(HttpServletResponse.SC_NOT_FOUND, "", res);
                 return;
