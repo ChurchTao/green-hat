@@ -2,6 +2,7 @@ package com.greenhat.mvc;
 
 
 import com.greenhat.ConfigNames;
+import com.greenhat.loader.ConfigLoader;
 import com.greenhat.loader.ControllerLoader;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.util.WebUtil;
@@ -44,8 +45,13 @@ public class DispatcherServlet extends HttpServlet {
         Handler handler = ControllerLoader.getHandler(requestMethod, requestPath);
 
         if (handler == null) {
-            WebUtil.sendError(HttpServletResponse.SC_NOT_FOUND, "", res);
-            return;
+            String path_404 = ConfigLoader.getString(ConfigNames.APP_PATH_404);
+            if (path_404!=null&&!path_404.equals("")){
+                WebUtil.forwardRequest(ConfigLoader.getAppWwwPath()+path_404, req, res);
+            }else {
+                WebUtil.sendError(HttpServletResponse.SC_NOT_FOUND, "", res);
+                return;
+            }
         }
         // 初始化 DataContext
         DataContext.init(req, res);

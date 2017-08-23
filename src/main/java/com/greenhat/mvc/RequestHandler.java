@@ -54,7 +54,7 @@ public class RequestHandler {
         } else if (result instanceof String) {
             String path = (String) result;
             if (!path.equals("")) {
-                req.getRequestDispatcher(ConfigLoader.getAppWwwPath() + path).forward(req, res);
+                WebUtil.forwardRequest(ConfigLoader.getAppWwwPath()+path, req, res);
             }
         } else {
             Class<?> resultClass = actionMethod.getReturnType();

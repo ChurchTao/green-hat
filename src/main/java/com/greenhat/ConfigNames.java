@@ -15,6 +15,7 @@ public interface ConfigNames {
     String APP_JSP_PATH = "app.jsp_path";
     String APP_ASSET_PATH = "app.asset_path";
     String APP_WWW_PATH = "app.www_path";
+    String APP_PATH_404 = "app.404_path";
     String HOME_PAGE = ConfigLoader.getString("app.home_page", "/index.html");
     String VERSION ="1.0";
     int UPLOAD_LIMIT = ConfigLoader.getInt("app.upload_limit", 10);
