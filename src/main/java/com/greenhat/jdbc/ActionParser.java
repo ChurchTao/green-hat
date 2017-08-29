@@ -26,12 +26,10 @@ public class ActionParser {
 
     private static final ClassPool cpool = new ClassPool(true);
     static {
-//        ClassUtil.loadClass(ClassPath.class.getName());
         cpool.appendClassPath(new LoaderClassPath(ClassUtil.getClassLoader()));
         cpool.importPackage("com.greenhat.jdbc");
         cpool.importPackage("com.greenhat.util");
         cpool.importPackage("com.greenhat.orm");
-        cpool.importPackage("com.greenhat.test");
         cpool.importPackage("java.util");
     }
 
