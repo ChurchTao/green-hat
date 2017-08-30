@@ -4,6 +4,10 @@
 
 [Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhat-demo)&nbsp; | &nbsp;[English]()
 
+![Build](https://img.shields.io/badge/Java-1.6+-green.svg?style=flat-square)
+![Version 1.0](https://img.shields.io/badge/version-1.0-yellow.svg?style=flat-square)
+
+
 ## 当前版本更新:
 
 *更新了数据库驱动,提供基于方法名解析的动态生成抽象方法的功能。
