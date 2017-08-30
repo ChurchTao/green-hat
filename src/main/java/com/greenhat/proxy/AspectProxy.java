@@ -3,6 +3,7 @@ package com.greenhat.proxy;
 import com.greenhat.annotation.AspectMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Method;
 
 /**
@@ -21,23 +22,26 @@ public abstract class AspectProxy implements Proxy {
         Method method = proxyChain.getTargetMethod();
         Object[] params = proxyChain.getMethodParams();
         if (method.isAnnotationPresent(AspectMethod.class)) {
-            begin();
-            try {
-                if (intercept(cls, method, params)) {
-                    before(cls, method, params);
-                    result = proxyChain.doProxyChain();
-                    after(cls, method, params, result);
-                } else {
-                    result = proxyChain.doProxyChain();
+            if (begin(cls, method, params)) {
+                try {
+                    if (intercept(cls, method, params)) {
+                        before(cls, method, params);
+                        result = proxyChain.doProxyChain();
+                        after(cls, method, params, result);
+                    } else {
+                        result = proxyChain.doProxyChain();
+                    }
+                } catch (Exception e) {
+                    logger.error("代理失败", e);
+                    error(cls, method, params, e);
+                    throw e;
+                } finally {
+                    end();
                 }
-            } catch (Exception e) {
-                logger.error("代理失败", e);
-                error(cls, method, params, e);
-                throw e;
-            } finally {
-                end();
+            }else {
+                return afterAspect();
             }
-        }else {
+        } else {
             result = proxyChain.doProxyChain();
         }
         return result;
@@ -62,8 +66,13 @@ public abstract class AspectProxy implements Proxy {
         return true;
     }
 
-    public void begin() {
-
+    public boolean begin(Class<?> cls, Method method, Object[] params) {
+        return true;
     }
+
+    public Object afterAspect() {
+        return null;
+    }
+
 
 }
