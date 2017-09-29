@@ -1,5 +1,6 @@
 package com.greenhat.jdbc;
 
+import com.greenhat.orm.EntityHelper;
 import com.greenhat.orm.Query;
 
 /**
@@ -38,17 +39,27 @@ public class BaseDAO<T> implements DAO<T> {
     }
 
     @Override
-    public boolean delete(T t,String pkName) {
-        return Query.delete(t,pkName);
+    public boolean delete(T t) {
+        return Query.delete(t);
     }
 
     @Override
-    public T get(int id,String pkName) {
-        return Query.select(tClass,pkName+"=?",id);
+    public T get(Object... object) {
+        StringBuilder condition = new StringBuilder();
+        boolean isFirst = true;
+        for (String pkName : EntityHelper.getPkName_Table(tClass)) {
+            if (isFirst) {
+                condition.append(pkName).append(" = ?");
+                isFirst = false;
+            } else {
+                condition.append(" and ").append(pkName).append("= ?");
+            }
+        }
+        return Query.select(tClass,condition.toString(),object);
     }
 
     @Override
-    public boolean update(T t,String pkName) {
-        return Query.update(t,pkName);
+    public boolean update(T t) {
+        return Query.update(t);
     }
 }

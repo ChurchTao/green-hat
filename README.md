@@ -1,6 +1,6 @@
 
 
-[![](http://shirley520.cn:9000/upload/2017/07/oe28fngd7sj7ep6pn6bua4f26m.png)](https://github.com/ChurchTao/green-hat)
+[![](http://opyzduw4a.bkt.clouddn.com/TIM%E6%88%AA%E5%9B%BE20170929155836.png)](https://github.com/ChurchTao/green-hat)
 
 [Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhat-demo)&nbsp; | &nbsp;[English]()
 
@@ -41,7 +41,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 
 或者按下图所示操作：
 
-![](http://182.254.156.252:9000/upload/2017/08/ohno1uckr4g4lrv7thbjup8qgb.png)
+![](http://opyzduw4a.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720170929155626.png)
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
 
@@ -58,11 +58,11 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 ```properties
 app.base_package=com.test       项目包地址[必须]
 
-app.jsp_path=/WEB-INF/view/     Jsp目录
-app.asset_path=/asset/          资源目录
-app.home_page=/index.html       主页
-app.www_path=/www/              html页面地址
-app.upload_limit=10             上传文件大小[默认10mb]
+app.jsp_path=/WEB-INF/view/     Jsp目录       [默认 /WEB-INF/view/]
+app.asset_path=/asset/          资源目录      [默认 /asset/]
+app.home_page=/index.html       主页          [默认 /index.html]
+app.www_path=/www/              html页面地址  [默认 /www/]
+app.upload_limit=10             上传文件大小  [默认10mb]
 
 #jdbc
 jdbc.driver=com.mysql.jdbc.Driver
@@ -70,6 +70,7 @@ jdbc.url=jdbc:mysql://127.0.0.1:3306/book?useUnicode=true&characterEncoding=UTF-
 jdbc.type=mysql                 [sqlserver|oracle] 
 jdbc.username=root
 jdbc.password=root
+printSQL=true                    [true|false]
 ```
 
 ## API示例

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +48,14 @@ public class ObjectUtil {
             throw new RuntimeException(e);
         }
         return propertyValue;
+    }
+
+    public static Object[] getFieldValues(Object obj, List<String> fieldList){
+        Object[] objects = new Object[fieldList.size()];
+        for (int i = 0; i < fieldList.size(); i++) {
+            objects[i]=getFieldValue(obj,fieldList.get(i));
+        }
+        return objects;
     }
 
     /**

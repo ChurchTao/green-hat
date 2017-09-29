@@ -2,6 +2,7 @@ package com.greenhat.jdbc.impl;
 
 import com.greenhat.jdbc.DataAccessor;
 import com.greenhat.jdbc.DatabaseLoader;
+import com.greenhat.loader.ConfigLoader;
 import com.greenhat.orm.EntityHelper;
 import com.greenhat.util.ArrayUtil;
 import com.greenhat.util.MapUtil;
@@ -30,6 +31,8 @@ public class DefaultDataAccessor implements DataAccessor {
 
     private final QueryRunner queryRunner;
 
+    private static final boolean isPrintSQL = ConfigLoader.getPrintSQL().equals("true");
+
     public DefaultDataAccessor() {
         DataSource dataSource = DatabaseLoader.getDataSource();
         queryRunner = new QueryRunner(dataSource);
@@ -46,7 +49,7 @@ public class DefaultDataAccessor implements DataAccessor {
                 result = queryRunner.query(sql, new BeanHandler<T>(entityClass), params);
             }
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -64,7 +67,7 @@ public class DefaultDataAccessor implements DataAccessor {
                 result = queryRunner.query(sql, new BeanListHandler<T>(entityClass), params);
             }
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -77,7 +80,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             entityMap = queryRunner.query(sql, new BeanMapHandler<K, V>(entityClass), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -90,7 +93,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             array = queryRunner.query(sql, new ArrayHandler(), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -103,7 +106,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             arrayList = queryRunner.query(sql, new ArrayListHandler(), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -116,7 +119,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             map = queryRunner.query(sql, new MapHandler(), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -129,7 +132,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             fieldMapList = queryRunner.query(sql, new MapListHandler(), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -142,7 +145,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             obj = queryRunner.query(sql, new ScalarHandler<T>(), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -155,7 +158,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             list = queryRunner.query(sql, new ColumnListHandler<T>(), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -168,7 +171,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             map = queryRunner.query(sql, new KeyedHandler<T>(column), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -181,7 +184,7 @@ public class DefaultDataAccessor implements DataAccessor {
         try {
             result = queryRunner.query(sql, new ScalarHandler<Long>("count(*)"), params);
         } catch (SQLException e) {
-            logger.error("查询出错！", e);
+            logger.error("查询出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -195,7 +198,7 @@ public class DefaultDataAccessor implements DataAccessor {
             Connection conn = DatabaseLoader.getConnection();
             result = queryRunner.update(conn, sql, params);
         } catch (SQLException e) {
-            logger.error("更新出错！", e);
+            logger.error("更新出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -221,7 +224,7 @@ public class DefaultDataAccessor implements DataAccessor {
                 }
             }
         } catch (SQLException e) {
-            logger.error("插入出错！", e);
+            logger.error("插入出错！");
             throw new RuntimeException(e);
         }
         printSQL(sql);
@@ -229,6 +232,6 @@ public class DefaultDataAccessor implements DataAccessor {
     }
 
     private static void printSQL(String sql) {
-        logger.debug("[GreenHat-JDBC] SQL - {}", sql);
+        if (isPrintSQL) logger.info("[GreenHat-JDBC] SQL - {}", sql);
     }
 }

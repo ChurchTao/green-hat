@@ -34,8 +34,13 @@ public final class ConfigLoader {
     public static String getJdbcURL() {
         return PropsUtil.getString(configProps, ConfigNames.JDBC_URL);
     }
-    public static String getJdbcType(){
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_TYPE,"mysql");
+
+    public static String getJdbcType() {
+        return PropsUtil.getString(configProps, ConfigNames.JDBC_TYPE, "mysql");
+    }
+
+    public static String getPrintSQL() {
+        return PropsUtil.getString(configProps, ConfigNames.JDBC_PRINTSQL, "true");
     }
 
     /**
@@ -86,6 +91,7 @@ public final class ConfigLoader {
     public static String getAppWwwPath() {
         return PropsUtil.getString(configProps, ConfigNames.APP_WWW_PATH, "/www/");
     }
+
     /**
      * 获取 String 类型的属性值
      */

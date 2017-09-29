@@ -2,6 +2,7 @@ package com.greenhat.orm;
 
 import com.greenhat.jdbc.SqlHelper;
 import com.greenhat.jdbc.DatabaseLoader;
+import com.greenhat.orm.exception.PkNotFoundException;
 import com.greenhat.util.ArrayUtil;
 import com.greenhat.util.MapUtil;
 import com.greenhat.util.ObjectUtil;
@@ -69,11 +70,11 @@ public class Query {
      * 查询多条数据，并转为映射（带有主键名）
      */
     @SuppressWarnings("unchecked")
-    public static <PK, T> Map<PK, T> selectMapWithPK(Class<T> entityClass, String pkName, String condition, String sort, Object... params) {
+    public static <PK, T> Map<PK, T> selectMapWithPK(Class<T> entityClass, String pkName, String condition, String sort, Object... params) throws PkNotFoundException {
         Map<PK, T> map = new LinkedHashMap<PK, T>();
         List<T> list = selectListWithConditionAndSort(entityClass, condition, sort, params);
         for (T obj : list) {
-            PK pk = (PK) ObjectUtil.getFieldValue(obj, pkName);
+            PK pk = (PK) EntityHelper.getPkName_Field(entityClass);
             map.put(pk, obj);
         }
         return map;
@@ -136,15 +137,26 @@ public class Query {
     /**
      * 更新一个实体（带有主键名）
      */
-    public static boolean update(Object entityObject, String pkName) {
+    public static boolean update(Object entityObject) {
         if (entityObject == null) {
             throw new IllegalArgumentException();
         }
         Class<?> entityClass = entityObject.getClass();
         Map<String, Object> fieldMap = ObjectUtil.getFieldMap(entityObject);
-        String condition = pkName + " = ?";
-        Object[] params = {ObjectUtil.getFieldValue(entityObject, pkName)};
-        return update(entityClass, fieldMap, condition, params);
+        List<String> pk_table = EntityHelper.getPkName_Table(entityClass);
+        List<String> pk_field = EntityHelper.getPkName_Field(entityClass);
+        StringBuilder condition = new StringBuilder();
+        boolean isFirst = true;
+        for (String pkName : pk_table) {
+            if (isFirst) {
+                condition.append(pkName).append("=?");
+                isFirst = false;
+            } else {
+                condition.append(" and ").append(pkName).append(" = ?");
+            }
+        }
+        Object[] params = ObjectUtil.getFieldValues(entityObject, pk_field);
+        return update(entityClass, fieldMap, condition.toString(), params);
     }
 
     /**
@@ -159,13 +171,24 @@ public class Query {
     /**
      * 删除一个实体（可指定主键名）
      */
-    public static boolean delete(Object entityObject, String pkName) {
+    public static boolean delete(Object entityObject) {
         if (entityObject == null) {
             throw new IllegalArgumentException();
         }
         Class<?> entityClass = entityObject.getClass();
-        String condition = pkName + " = ?";
-        Object[] params = {ObjectUtil.getFieldValue(entityObject, pkName)};
-        return delete(entityClass, condition, params);
+        List<String> pk_table = EntityHelper.getPkName_Table(entityClass);
+        List<String> pk_field = EntityHelper.getPkName_Field(entityClass);
+        StringBuilder condition = new StringBuilder();
+        boolean isFirst = true;
+        for (String pkName : pk_table) {
+            if (isFirst) {
+                condition.append(pkName).append(" = ?");
+                isFirst = false;
+            } else {
+                condition.append(" and ").append(pkName).append("= ?");
+            }
+        }
+        Object[] params = ObjectUtil.getFieldValues(entityObject, pk_field);
+        return delete(entityClass, condition.toString(), params);
     }
 }
