@@ -4,6 +4,7 @@ import com.greenhat.ConfigNames;
 import com.greenhat.mvc.bean.FileParam;
 import com.greenhat.mvc.bean.FormParam;
 import com.greenhat.mvc.bean.Param;
+import com.greenhat.mvc.fault.UploadException;
 import com.greenhat.util.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
@@ -108,8 +109,8 @@ public class UploadHelper {
                 StreamUtil.copyStream(inputStream, outputStream);
             }
         } catch (Exception e) {
-            logger.error("上传文件出错！", e);
-            throw new RuntimeException(e);
+            logger.error("上传文件出错！");
+            throw new UploadException(e);
         } finally {
             try {
                 fileOutputStream.close();

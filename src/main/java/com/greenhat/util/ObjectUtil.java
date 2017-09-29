@@ -29,7 +29,7 @@ public class ObjectUtil {
                 PropertyUtils.setProperty(obj, fieldName, fieldValue);
             }
         } catch (Exception e) {
-            logger.error("设置成员变量出错！", e);
+            logger.error("设置成员变量出错！");
             throw new RuntimeException(e);
         }
     }
@@ -44,7 +44,7 @@ public class ObjectUtil {
                 propertyValue = PropertyUtils.getProperty(obj, fieldName);
             }
         } catch (Exception e) {
-            logger.error("获取成员变量出错！", e);
+            logger.error("获取成员变量出错！");
             throw new RuntimeException(e);
         }
         return propertyValue;
@@ -71,7 +71,7 @@ public class ObjectUtil {
                 }
             }
         } catch (Exception e) {
-            logger.error("复制成员变量出错！", e);
+            logger.error("复制成员变量出错！");
             throw new RuntimeException(e);
         }
     }
@@ -86,7 +86,7 @@ public class ObjectUtil {
             Class<?> commandClass = ClassUtil.loadClass(className);
             instance = (T) commandClass.newInstance();
         } catch (Exception e) {
-            logger.error("创建实例出错！", e);
+            logger.error("创建实例出错！");
             throw new RuntimeException(e);
         }
         return instance;

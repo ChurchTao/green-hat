@@ -35,7 +35,7 @@ public final class DatabaseLoader {
                 }
             }
         } catch (SQLException e) {
-            logger.error("获取数据库连接出错！", e);
+            logger.error("获取数据库连接出错！");
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             logger.error("未找到数据库驱动，请检查config.propties中的驱动名称是否正确，或者jar是否引入！", e);
@@ -52,7 +52,7 @@ public final class DatabaseLoader {
             try {
                 conn.setAutoCommit(false);
             } catch (SQLException e) {
-                logger.error("开启事务出错！", e);
+                logger.error("开启事务出错！");
                 throw new RuntimeException(e);
             } finally {
                 connContainer.set(conn);
@@ -70,7 +70,7 @@ public final class DatabaseLoader {
                 conn.commit();
                 conn.close();
             } catch (SQLException e) {
-                logger.error("提交事务出错！", e);
+                logger.error("提交事务出错！");
                 throw new RuntimeException(e);
             } finally {
                 connContainer.remove();
@@ -88,7 +88,7 @@ public final class DatabaseLoader {
                 conn.rollback();
                 conn.close();
             } catch (SQLException e) {
-                logger.error("回滚事务出错！", e);
+                logger.error("回滚事务出错！");
                 throw new RuntimeException(e);
             } finally {
                 connContainer.remove();

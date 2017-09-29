@@ -30,7 +30,7 @@ public class StreamUtil {
             }
             outputStream.flush();
         } catch (Exception e) {
-            logger.error("复制流出错！", e);
+            logger.error("复制流出错！");
             throw new RuntimeException(e);
         } finally {
             try {
@@ -54,7 +54,7 @@ public class StreamUtil {
                 sb.append(line);
             }
         } catch (Exception e) {
-            logger.error("Stream 转 String 出错！", e);
+            logger.error("Stream 转 String 出错！");
             throw new RuntimeException(e);
         }
         return sb.toString();

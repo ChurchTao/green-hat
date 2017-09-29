@@ -37,7 +37,7 @@ public class WebUtil {
             writer.flush();
             writer.close();
         } catch (Exception e) {
-            logger.error("在响应中写数据出错！", e);
+            logger.error("在响应中写数据出错！");
             throw new RuntimeException(e);
         }
     }
@@ -56,7 +56,7 @@ public class WebUtil {
             writer.flush();
             writer.close();
         } catch (Exception e) {
-            logger.error("在响应中写数据出错！", e);
+            logger.error("在响应中写数据出错！");
             throw new RuntimeException(e);
         }
     }
@@ -112,7 +112,7 @@ public class WebUtil {
                 }
             }
         } catch (Exception e) {
-            logger.error("获取请求参数出错！", e);
+            logger.error("获取请求参数出错！");
             throw new RuntimeException(e);
         }
         return paramMap;
@@ -129,7 +129,7 @@ public class WebUtil {
         try {
             request.getRequestDispatcher(path).forward(request, response);
         } catch (Exception e) {
-            logger.error("转发请求出错！", e);
+            logger.error("转发请求出错！");
             throw new RuntimeException(e);
         }
     }
@@ -141,7 +141,7 @@ public class WebUtil {
         try {
             response.sendRedirect(request.getContextPath() + path);
         } catch (Exception e) {
-            logger.error("重定向请求出错！", e);
+            logger.error("重定向请求出错！");
             throw new RuntimeException(e);
         }
     }
@@ -153,7 +153,7 @@ public class WebUtil {
         try {
             response.sendError(code, message);
         } catch (Exception e) {
-            logger.error("发送错误代码出错！", e);
+            logger.error("发送错误代码出错！");
             throw new RuntimeException(e);
         }
     }
@@ -190,7 +190,7 @@ public class WebUtil {
                 }
             }
         } catch (Exception e) {
-            logger.error("获取 Cookie 出错！", e);
+            logger.error("获取 Cookie 出错！");
             throw new RuntimeException(e);
         }
         return value;
@@ -211,7 +211,7 @@ public class WebUtil {
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             StreamUtil.copyStream(inputStream, outputStream);
         } catch (Exception e) {
-            logger.error("下载文件出错！", e);
+            logger.error("下载文件出错！");
             throw new RuntimeException(e);
         }
     }
@@ -291,7 +291,7 @@ public class WebUtil {
             ImageIO.write(bi, "jpeg", sos);
             sos.close();
         } catch (Exception e) {
-            logger.error("创建验证码出错！", e);
+            logger.error("创建验证码出错！");
             throw new RuntimeException(e);
         }
         return captcha.toString();

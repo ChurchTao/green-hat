@@ -24,7 +24,7 @@ public class JsonUtil {
         try {
             jsonStr = objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
-            logger.error("Java 转 JSON 出错！", e);
+            logger.error("Java 转 JSON 出错！");
             throw new RuntimeException(e);
         }
         return jsonStr;
@@ -38,7 +38,7 @@ public class JsonUtil {
         try {
             obj = objectMapper.readValue(json, type);
         } catch (Exception e) {
-            logger.error("JSON 转 Java 出错！", e);
+            logger.error("JSON 转 Java 出错！");
             throw new RuntimeException(e);
         }
         return obj;

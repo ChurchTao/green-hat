@@ -36,7 +36,7 @@ public class PropsUtil {
                 props.load(is);
             }
         } catch (Exception e) {
-            logger.error("加载属性文件出错！", e);
+            logger.error("加载属性文件出错！");
             throw new RuntimeException(e);
         } finally {
             try {
