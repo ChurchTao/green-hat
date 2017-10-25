@@ -41,7 +41,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 
 或者按下图所示操作：
 
-![](http://opyzduw4a.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720170929155626.png)
+[![](http://opyzduw4a.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720170929155626.png)]()
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
 
