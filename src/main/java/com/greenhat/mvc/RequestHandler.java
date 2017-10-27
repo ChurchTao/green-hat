@@ -7,6 +7,8 @@ import com.greenhat.loader.ConfigLoader;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Param;
 import com.greenhat.mvc.bean.View;
+import com.greenhat.mvc.request.ContentType;
+import com.greenhat.mvc.request.JsonReader;
 import com.greenhat.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +29,20 @@ public class RequestHandler {
         if (UploadHelper.isMultipart(req)) {
             param = UploadHelper.createParam(req);
         } else {
-            Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
-            param = new Param(paramMap);
+            if (req.getContentType()==null){
+                Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
+                param = new Param(paramMap);
+            }else {
+                if (req.getContentType().equals(ContentType.JSON.toString())){
+                    Map map = JsonReader.receiveJson(req);
+                    param = new Param(map);
+                }else if (req.getContentType().equals(ContentType.FORM.toString())){
+                    Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
+                    param = new Param(paramMap);
+                }else {
+                    throw new RuntimeException("请求未知，已阻拦");
+                }
+            }
         }
 
         Method actionMethod = handler.getActionMethod();
