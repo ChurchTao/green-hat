@@ -33,10 +33,10 @@ public class RequestHandler {
                 Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
                 param = new Param(paramMap);
             }else {
-                if (req.getContentType().equals(ContentType.JSON.toString())){
+                if (req.getContentType().contains(ContentType.JSON.toString())){
                     Map map = JsonReader.receiveJson(req);
                     param = new Param(map);
-                }else if (req.getContentType().equals(ContentType.FORM.toString())){
+                }else if (req.getContentType().contains(ContentType.FORM.toString())){
                     Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
                     param = new Param(paramMap);
                 }else {
