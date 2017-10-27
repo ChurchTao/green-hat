@@ -1,7 +1,7 @@
 package com.greenhat.mvc;
 
 
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 import com.greenhat.loader.BeanLoader;
 import com.greenhat.loader.ConfigLoader;
 import com.greenhat.mvc.bean.Handler;
@@ -48,7 +48,7 @@ public class RequestHandler {
         Method actionMethod = handler.getActionMethod();
         actionMethod.setAccessible(true); // 取消类型安全检测（可提高反射性能）
         Object result = executeMethod(controllerBean, actionMethod, req, res, param);
-        res.setHeader("X-Powered-By", "GreenHat(" + ConfigNames.VERSION + ")");
+        res.setHeader("X-Powered-By", "GreenHat(" + Config.VERSION + ")");
 
         if (result instanceof View) {
             View view = (View) result;
@@ -56,7 +56,7 @@ public class RequestHandler {
                 String path = view.getPath();
                 WebUtil.redirectRequest(path, req, res);
             } else {
-                String path = ConfigLoader.getAppJspPath() + view.getPath();
+                String path = Config.APP_JSP_PATH + view.getPath();
                 Map<String, Object> data = view.getModel();
                 if (MapUtil.isNotEmpty(data)) {
                     for (Map.Entry<String, Object> entry : data.entrySet()) {
@@ -68,7 +68,7 @@ public class RequestHandler {
         } else if (result instanceof String) {
             String path = (String) result;
             if (!path.equals("")) {
-                WebUtil.forwardRequest(ConfigLoader.getAppWwwPath()+path, req, res);
+                WebUtil.forwardRequest(Config.APP_WWW_PATH+path, req, res);
             }
         } else {
             Class<?> resultClass = actionMethod.getReturnType();

@@ -1,4 +1,4 @@
-package com.greenhat.proxy;
+package com.greenhat.aop;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

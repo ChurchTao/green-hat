@@ -1,4 +1,4 @@
-package com.greenhat.annotation;
+package com.greenhat.aop.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

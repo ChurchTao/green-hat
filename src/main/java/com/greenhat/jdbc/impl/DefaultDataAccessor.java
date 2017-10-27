@@ -1,5 +1,6 @@
 package com.greenhat.jdbc.impl;
 
+import com.greenhat.Config;
 import com.greenhat.jdbc.DataAccessor;
 import com.greenhat.jdbc.DatabaseLoader;
 import com.greenhat.loader.ConfigLoader;
@@ -31,7 +32,7 @@ public class DefaultDataAccessor implements DataAccessor {
 
     private final QueryRunner queryRunner;
 
-    private static final boolean isPrintSQL = ConfigLoader.getPrintSQL().equals("true");
+    private static final boolean isPrintSQL = Config.JDBC_PRINTSQL.equals("true");
 
     public DefaultDataAccessor() {
         DataSource dataSource = DatabaseLoader.getDataSource();

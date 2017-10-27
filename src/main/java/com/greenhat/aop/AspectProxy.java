@@ -1,6 +1,6 @@
-package com.greenhat.proxy;
+package com.greenhat.aop;
 
-import com.greenhat.annotation.AspectMethod;
+import com.greenhat.aop.annotation.AspectMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

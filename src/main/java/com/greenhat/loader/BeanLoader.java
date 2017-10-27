@@ -1,11 +1,15 @@
 package com.greenhat.loader;
 
-import com.greenhat.annotation.*;
-import com.greenhat.jdbc.DAOFactory;
+import com.greenhat.ioc.annotation.Autowired;
+import com.greenhat.ioc.annotation.Bean;
+import com.greenhat.ioc.annotation.Controller;
+import com.greenhat.ioc.annotation.Service;
+import com.greenhat.jdbc.DAOFactory.DAOFactory;
+import com.greenhat.jdbc.annotation.DAO;
+import com.greenhat.aop.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +38,7 @@ public final class BeanLoader {
                     // 将 Bean 实例放入 Bean Map 中（键为 Bean 类，值为 Bean 实例）
                     Beans.put(cls, beanInstance);
                 }
-                if (cls.isAnnotationPresent(com.greenhat.annotation.DAO.class)){
+                if (cls.isAnnotationPresent(DAO.class)){
                     Beans.put(cls, DAOFactory.getDAO(cls));
                 }
 

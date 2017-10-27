@@ -1,7 +1,7 @@
 package com.greenhat.util;
 
 import org.apache.commons.io.FilenameUtils;
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class WebUtil {
         try {
             // 设置响应头
             response.setContentType("application/json"); // 指定内容类型为 JSON 格式
-            response.setCharacterEncoding(ConfigNames.UTF_8); // 防止中文乱码
+            response.setCharacterEncoding(Config.UTF_8); // 防止中文乱码
             // 向响应中写入数据
             PrintWriter writer = response.getWriter();
             T tdata = tClass.cast(data);
@@ -49,7 +49,7 @@ public class WebUtil {
         try {
             // 设置响应头
             response.setContentType("text/html"); // 指定内容类型为 HTML 格式
-            response.setCharacterEncoding(ConfigNames.UTF_8); // 防止中文乱码
+            response.setCharacterEncoding(Config.UTF_8); // 防止中文乱码
             // 向响应中写入数据
             PrintWriter writer = response.getWriter();
             writer.write(JsonUtil.toJSON(data)); // 转为 JSON 字符串

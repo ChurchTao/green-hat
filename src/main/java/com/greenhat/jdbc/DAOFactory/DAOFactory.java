@@ -1,4 +1,4 @@
-package com.greenhat.jdbc;
+package com.greenhat.jdbc.DAOFactory;
 
 import com.greenhat.loader.ClassLoader;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class DAOFactory {
     static {
         logger.info("DAOFactory init start!");
         try {
-            List<Class<?>> classes = ClassLoader.getClassListByAnnotation(com.greenhat.annotation.DAO.class);
+            List<Class<?>> classes = ClassLoader.getClassListByAnnotation(com.greenhat.jdbc.annotation.DAO.class);
             for (Class<?> c : classes) {
                 ActionParser.createProxyDAOBean(c.getName(),c);
                 logger.info("DAOFactory Loaded {}!",c.getName());

@@ -1,4 +1,4 @@
-package com.greenhat.mvc;
+package com.greenhat.mvc.request;
 
 /**
  * Created by jiacheng on 2017/7/27.

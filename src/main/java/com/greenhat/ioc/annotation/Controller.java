@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greenhat.annotation;
+package com.greenhat.ioc.annotation;
 
 import java.lang.annotation.*;
 

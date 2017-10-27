@@ -1,7 +1,8 @@
-package com.greenhat.loader;
+package com.greenhat.ioc;
 
 
-import com.greenhat.annotation.Autowired;
+import com.greenhat.ioc.annotation.Autowired;
+import com.greenhat.loader.BeanLoader;
 import com.greenhat.util.ArrayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,7 +3,7 @@ package com.greenhat.util;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class CodecUtil {
     public static String encodeURL(String str) {
         String target;
         try {
-            target = URLEncoder.encode(str, ConfigNames.UTF_8);
+            target = URLEncoder.encode(str, Config.UTF_8);
         } catch (Exception e) {
             logger.error("编码出错！", e);
             throw new RuntimeException(e);
@@ -42,7 +42,7 @@ public class CodecUtil {
     public static String decodeURL(String str) {
         String target;
         try {
-            target = URLDecoder.decode(str, ConfigNames.UTF_8);
+            target = URLDecoder.decode(str, Config.UTF_8);
         } catch (Exception e) {
             logger.error("解码出错！", e);
             throw new RuntimeException(e);
@@ -56,7 +56,7 @@ public class CodecUtil {
     public static String encodeBASE64(String str) {
         String target;
         try {
-            target = Base64.encodeBase64URLSafeString(str.getBytes(ConfigNames.UTF_8));
+            target = Base64.encodeBase64URLSafeString(str.getBytes(Config.UTF_8));
         } catch (UnsupportedEncodingException e) {
             logger.error("编码出错！", e);
             throw new RuntimeException(e);
@@ -70,7 +70,7 @@ public class CodecUtil {
     public static String decodeBASE64(String str) {
         String target;
         try {
-            target = new String(Base64.decodeBase64(str), ConfigNames.UTF_8);
+            target = new String(Base64.decodeBase64(str), Config.UTF_8);
         } catch (UnsupportedEncodingException e) {
             logger.error("解码出错！", e);
             throw new RuntimeException(e);

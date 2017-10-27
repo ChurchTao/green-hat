@@ -1,5 +1,6 @@
 package com.greenhat.loader;
 
+import com.greenhat.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +14,10 @@ import java.sql.SQLException;
 public final class DatabaseLoader {
     private static final Logger logger = LoggerFactory.getLogger(DatabaseLoader.class);
 
-    private static final String driver = ConfigLoader.getJdbcDriver();
-    private static final String url = ConfigLoader.getJdbcURL();
-    private static final String username = ConfigLoader.getJdbcUsername();
-    private static final String password = ConfigLoader.getJdbcPassword();
+    private static final String driver = Config.JDBC_DRIVER;
+    private static final String url = Config.JDBC_URL;
+    private static final String username = Config.JDBC_USERNAME;
+    private static final String password = Config.JDBC_PASSWORD;
 
     private static ThreadLocal<Connection> connContainer = new ThreadLocal<Connection>();
 

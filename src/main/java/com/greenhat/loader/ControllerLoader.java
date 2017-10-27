@@ -1,7 +1,7 @@
 package com.greenhat.loader;
 
 
-import com.greenhat.annotation.Mapping;
+import com.greenhat.ioc.annotation.Mapping;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Request;
 import com.greenhat.util.ArrayUtil;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

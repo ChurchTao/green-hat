@@ -1,4 +1,4 @@
-package com.greenhat.annotation;
+package com.greenhat.jdbc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 定义需要事务控制的方法
+ * Created by jiacheng on 2017/8/8.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Transaction {
+public @interface DAOMethod {
+    String sql() default "";
+    int start() default 0;
+    int limit() default 100;
+    String orderBy() default "";
 }

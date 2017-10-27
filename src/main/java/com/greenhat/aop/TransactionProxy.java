@@ -1,7 +1,7 @@
-package com.greenhat.proxy;
+package com.greenhat.aop;
 
 
-import com.greenhat.annotation.Transaction;
+import com.greenhat.aop.annotation.Transaction;
 import com.greenhat.loader.DatabaseLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

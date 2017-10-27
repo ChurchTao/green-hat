@@ -1,4 +1,4 @@
-package com.greenhat.jdbc;
+package com.greenhat.jdbc.DAOFactory;
 
 /**
  * Created by jiacheng on 2017/8/10.

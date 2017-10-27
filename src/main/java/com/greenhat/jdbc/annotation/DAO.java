@@ -1,4 +1,4 @@
-package com.greenhat.annotation;
+package com.greenhat.jdbc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 定义 Service 类
+ * Created by jiacheng on 2017/8/8.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Service {
+public @interface DAO {
 }

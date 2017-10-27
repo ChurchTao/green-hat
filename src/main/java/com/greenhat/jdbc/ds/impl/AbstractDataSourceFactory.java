@@ -1,6 +1,7 @@
 package com.greenhat.jdbc.ds.impl;
 
 
+import com.greenhat.Config;
 import com.greenhat.jdbc.ds.DataSourceFactory;
 import com.greenhat.loader.ConfigLoader;
 
@@ -8,10 +9,10 @@ import javax.sql.DataSource;
 
 public abstract class AbstractDataSourceFactory<T extends DataSource> implements DataSourceFactory {
 
-    protected  final String driver = ConfigLoader.getJdbcDriver();
-    protected  final String url = ConfigLoader.getJdbcURL();
-    protected  final String username = ConfigLoader.getJdbcUsername();
-    protected  final String password = ConfigLoader.getJdbcPassword();
+    protected  final String driver = Config.JDBC_DRIVER;
+    protected  final String url = Config.JDBC_URL;
+    protected  final String username = Config.JDBC_USERNAME;
+    protected  final String password = Config.JDBC_PASSWORD;
 
     @Override
     public final T getDataSource() {

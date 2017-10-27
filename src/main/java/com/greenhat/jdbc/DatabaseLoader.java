@@ -1,5 +1,6 @@
 package com.greenhat.jdbc;
 
+import com.greenhat.Config;
 import com.greenhat.InstanceFactory;
 import com.greenhat.jdbc.ds.DataSourceFactory;
 import com.greenhat.loader.ConfigLoader;
@@ -21,7 +22,7 @@ public final class DatabaseLoader {
     private static final ThreadLocal<Connection> connContainer = new ThreadLocal<Connection>();
     private static final DataSourceFactory dataSourceFactory = InstanceFactory.getDataSourceFactory();
     private static final DataAccessor dataAccessor = InstanceFactory.getDataAccessor();
-    private static final String databaseType = ConfigLoader.getJdbcType();
+    private static final String databaseType = Config.JDBC_TYPE;
     public static String getDatabaseType() {
         return databaseType;
     }

@@ -1,6 +1,6 @@
 package com.greenhat.banner;
 
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 
 /**
  * Created by jiacheng on 2017/7/24.
@@ -23,7 +23,7 @@ public final class Banner {
             builder.append("\r\n\t\t");
             builder.append(text);
         }
-        builder.append("==================:: v").append(ConfigNames.VERSION).append(" ::==================");
+        builder.append("==================:: v").append(Config.VERSION).append(" ::==================");
         builder.append("\r\n\t");
         System.out.println(builder.toString());
     }

@@ -2,7 +2,7 @@ package com.greenhat.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,7 +139,7 @@ public class FileUtil {
         try {
             FileUtil.createFile(filePath);
             os = new BufferedOutputStream(new FileOutputStream(filePath));
-            w = new OutputStreamWriter(os, ConfigNames.UTF_8);
+            w = new OutputStreamWriter(os, Config.UTF_8);
             w.write(fileContent);
             w.flush();
         } catch (Exception e) {

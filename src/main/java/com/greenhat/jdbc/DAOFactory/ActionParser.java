@@ -1,6 +1,7 @@
-package com.greenhat.jdbc;
+package com.greenhat.jdbc.DAOFactory;
 
-import com.greenhat.annotation.DAOMethod;
+import com.greenhat.jdbc.MethodCreator;
+import com.greenhat.jdbc.annotation.DAOMethod;
 import com.greenhat.util.ClassUtil;
 import javassist.*;
 import javassist.bytecode.AnnotationsAttribute;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
  */
 public class ActionParser {
     private static final AtomicInteger counter = new AtomicInteger(0);
-    private static final String DEFAULT_PARENT_CLASS_NAME = "com.greenhat.jdbc.BaseDAO";
+    private static final String DEFAULT_PARENT_CLASS_NAME = "com.greenhat.jdbc.DAOFactory.BaseDAO";
     private static final Pattern findPatternBase = Pattern.compile("^(find|get)([A-Z][\\w$_]*)$");
     private static final Pattern findPattern3 = Pattern.compile("^(find|query|get|delete|remove)([A-Z][\\w$_]*)?By([A-Z][\\w$_]*)$");
 
@@ -66,7 +67,7 @@ public class ActionParser {
             dao.settClass(entityClass);
             DAOFactory.register(daoClass, dao);
         } catch (Exception e) {
-            throw new IllegalStateException("daoClass[" + daoClass + "] create proxy entity failed.", e);
+            throw new IllegalStateException("daoClass[" + daoClass + "] create aop entity failed.", e);
         } finally {
             cc.detach();
         }

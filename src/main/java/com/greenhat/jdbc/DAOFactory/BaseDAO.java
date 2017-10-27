@@ -1,4 +1,4 @@
-package com.greenhat.jdbc;
+package com.greenhat.jdbc.DAOFactory;
 
 import com.greenhat.orm.EntityHelper;
 import com.greenhat.orm.Query;
