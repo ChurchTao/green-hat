@@ -11,8 +11,8 @@
 
 
     <name>GreenHat</name>
-    <url>https://github.com/ChurchTao/green-hat</url>
-
+    <url>https://github.com/ChurchTao/GreenHat</url>
+    <description>Why told green-hat,because i have one~</description>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -30,9 +30,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git@github.com:ChurchTao/green-hat.git</connection>
-        <developerConnection>scm:git@github.com:ChurchTao/green-hat.git</developerConnection>
-        <url>git@github.com:ChurchTao/green-hat.git</url>
+        <connection>scm:https://github.com/ChurchTao/GreenHat.git</connection>
+        <developerConnection>scm:https://github.com/ChurchTao/GreenHat.git</developerConnection>
+        <url>https://github.com/ChurchTao/GreenHat.git</url>
         <tag>v${project.version}</tag>
     </scm>
 
@@ -49,6 +49,7 @@
         <commons-dbutils.version>1.5</commons-dbutils.version>
         <commons-fileupload.version>1.3</commons-fileupload.version>
         <commons-codec.version>1.8</commons-codec.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
@@ -56,6 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -183,36 +185,20 @@
             <distributionManagement>
                 <snapshotRepository>
                     <id>oss</id>
-                    <url>
-                        https://oss.sonatype.org/content/repositories/snapshots/
-                    </url>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
                 <repository>
                     <id>oss</id>
-                    <url>
-                        https://oss.sonatype.org/service/local/staging/deploy/maven2/
-                    </url>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>
             <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/java</directory>
-                        <filtering>false</filtering>
-                        <includes>
-                            <include>**/*.properties</include>
-                        </includes>
-                    </resource>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                        <filtering>false</filtering>
-                    </resource>
-                </resources>
                 <plugins>
-                    <!--  Source  -->
+                    <!-- Source -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -222,87 +208,21 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    <!--  Javadoc  -->
+                    <!-- Javadoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.3</version>
-                        <configuration>
-                            <charset>UTF-8</charset>
-                            <docencoding>UTF-8</docencoding>
-                        </configuration>
+                        <version>2.10.4</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
-                                <configuration>
-                                    <additionalparam>-Xdoclint:none</additionalparam>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
-                    <!--  Gpg Signature  -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>snapshots</id>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>oss</id>
-                    <url>
-                        https://oss.sonatype.org/content/repositories/snapshots/
-                    </url>
-                </snapshotRepository>
-                <repository>
-                    <id>oss</id>
-                    <url>
-                        https://oss.sonatype.org/service/local/staging/deploy/maven2/
-                    </url>
-                </repository>
-            </distributionManagement>
-            <build>
-                <plugins>
-                    <!--  Source  -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!--skip test-->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.17</version>
-                        <configuration>
-                            <skipTests>true</skipTests>
-                        </configuration>
-                    </plugin>
-                    <!--  Gpg Signature  -->
+                    <!-- Gpg Signature -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
