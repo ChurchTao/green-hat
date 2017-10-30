@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <groupId>com.github.ChurchTao</groupId>
-    <artifactId>GreenHat</artifactId>
+    <groupId>com.github.churchtao</groupId>
+    <artifactId>greenhat</artifactId>
     <version>1.0</version>
 
 
     <name>GreenHat</name>
-    <url>https://github.com/ChurchTao/GreenHat</url>
+    <url>https://github.com/ChurchTao/green-hat</url>
     <description>Why told green-hat,because i have one~</description>
     <licenses>
         <license>
@@ -30,9 +30,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:https://github.com/ChurchTao/GreenHat.git</connection>
-        <developerConnection>scm:https://github.com/ChurchTao/GreenHat.git</developerConnection>
-        <url>https://github.com/ChurchTao/GreenHat.git</url>
+        <connection>scm:git:https://github.com/ChurchTao/green-hat.git</connection>
+        <developerConnection>scm:git:https://github.com/ChurchTao/green-hat.git</developerConnection>
+        <url>https://github.com/ChurchTao/green-hat.git</url>
         <tag>v${project.version}</tag>
     </scm>
 
