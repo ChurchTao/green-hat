@@ -2,7 +2,7 @@
 
 [![](http://opyzduw4a.bkt.clouddn.com/TIM%E6%88%AA%E5%9B%BE20170929155836.png)](https://github.com/ChurchTao/green-hat)
 
-[Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhat-demo)&nbsp; | &nbsp;[English]()
+[Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhatdemo)&nbsp; | &nbsp;[English]()
 
 ![Build](https://img.shields.io/badge/Java-1.6+-green.svg?style=flat-square)
 ![Version 1.0](https://img.shields.io/badge/version-1.0-yellow.svg?style=flat-square)
@@ -36,12 +36,6 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 * 优雅的：`green-hat` 沿用Spring的注解风格，方便记忆。
 
 ## 快速入门 [demo](https://github.com/ChurchTao/greenhat-demo)
-
-开始之前,首先 下载[源码](https://github.com/ChurchTao/green-hat),到根目录执行 `mvn install` 目的是把源码打包到本地maven仓库
-
-或者按下图所示操作：
-
-[![](http://opyzduw4a.bkt.clouddn.com/TIM图片20170929155626.png)](http://opyzduw4a.bkt.clouddn.com/TIM%E5%9B%BE%E7%89%8720170929155626.png)
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
 
@@ -88,11 +82,11 @@ printSQL=true                    [true|false]
     }
     
     @Mapping(value = "/index2",method = RequestMethod.get)
-    public Data index(Param param){
+    public String index(Param param){
         userService.out();
         Man man2 = DataContext.Session.get("loginUser");
         man2.say();
-        return new Data(param);
+        return "index2.html";
     }
 ```
 
@@ -131,7 +125,12 @@ public abstract class BookDAO extends BaseDAO<Book> {
     public abstract List<Book> find(String name);
     
     //当然，假如你想手动写一些查询，可以调用  Query.* 里面的方法实现
-    
+    public List<Book> findBook2(int pageNumber, int pageSize) {
+            return Query.selectList(pageNumber, pageSize, Book.class, "","");
+        }
+    public Book findBood3(String bookname){
+            return Query.select(Admin.class,"bookname=?",bookname);
+        }
 }
 ```
 
