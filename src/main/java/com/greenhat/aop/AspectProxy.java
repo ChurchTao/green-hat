@@ -1,5 +1,6 @@
 package com.greenhat.aop;
 
+import com.greenhat.aop.annotation.AspectAll;
 import com.greenhat.aop.annotation.AspectMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public abstract class AspectProxy implements Proxy {
         Class<?> cls = proxyChain.getTargetClass();
         Method method = proxyChain.getTargetMethod();
         Object[] params = proxyChain.getMethodParams();
-        if (method.isAnnotationPresent(AspectMethod.class)) {
+        if (cls.isAnnotationPresent(AspectAll.class) || method.isAnnotationPresent(AspectMethod.class)) {
             if (begin(cls, method, params)) {
                 try {
                     if (intercept(cls, method, params)) {
