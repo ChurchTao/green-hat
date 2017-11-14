@@ -110,6 +110,10 @@ public class Param {
         return CastUtil.castInt(get(name));
     }
 
+    public Map<String,Object> getJsonBody(){
+        return (Map<String, Object>) paramMap.get("Body");
+    }
+
     public Object get(String name) {
         return paramMap.get(name);
     }

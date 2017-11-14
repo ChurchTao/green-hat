@@ -5,6 +5,8 @@ import com.greenhat.Config;
 import com.greenhat.loader.ConfigLoader;
 import com.greenhat.loader.ControllerLoader;
 import com.greenhat.mvc.bean.Handler;
+import com.greenhat.mvc.fault.ServerException;
+import com.greenhat.mvc.request.RestResponse;
 import com.greenhat.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +39,25 @@ public class DispatcherServlet extends HttpServlet {
             WebUtil.redirectRequest(Config.HOME_PAGE, req, res);
             return;
         }
+        if (!requestPath.startsWith("/")) {
+            requestPath = "/"+requestPath;
+        }
         // 去掉当前请求路径末尾的“/”
         if (requestPath.endsWith("/")) {
             requestPath = requestPath.substring(0, requestPath.length() - 1);
         }
 
-        Handler handler = ControllerLoader.getHandler(requestMethod, requestPath);
+        Handler handler = null;
+        try {
+            handler = ControllerLoader.getHandler(requestMethod, requestPath,req);
+        } catch (Exception e) {
+            if (e instanceof ServerException){
+                WebUtil.writeJSON(res, RestResponse.fail(((ServerException) e).getCode(),e.getMessage()),RestResponse.class);
+                return;
+            }
+            logger.error("请检查 {}",e);
+            return;
+        }
 
         if (handler == null) {
             String path_404 = ConfigLoader.getString(Config.APP_PATH_404);
