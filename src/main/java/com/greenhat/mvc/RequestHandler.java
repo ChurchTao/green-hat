@@ -2,6 +2,7 @@ package com.greenhat.mvc;
 
 
 import com.greenhat.Config;
+import com.greenhat.json.JSONRequestBean;
 import com.greenhat.loader.BeanLoader;
 import com.greenhat.loader.ConfigLoader;
 import com.greenhat.mvc.bean.Handler;
@@ -29,7 +30,11 @@ public class RequestHandler {
         if (UploadHelper.isMultipart(req)) {
             param = UploadHelper.createParam(req);
         } else {
-            if (req.getContentType()==null){
+            if (handler.isJsonRequest()){
+                JSONRequestBean bean = JsonReader.readRequest(req);
+                param = new Param();
+                param.setJsonRequest(bean);
+            }else if (req.getContentType()==null){
                 Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
                 param = new Param(paramMap);
             }else {
@@ -101,6 +106,11 @@ public class RequestHandler {
             }
             if (paramTypeClazz.getName().equals(Param.class.getName())) {
                 args[i] = param;
+            }
+            if (paramTypeClazz.getName().equals(JSONRequestBean.class.getName())) {
+                if (param.getJsonRequest()!=null){
+                    args[i] = param.getJsonRequest();
+                }
             }
         }
         return args;

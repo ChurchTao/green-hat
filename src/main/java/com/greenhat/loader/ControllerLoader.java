@@ -6,6 +6,7 @@ import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Request;
 import com.greenhat.mvc.fault.ServerException;
 import com.greenhat.mvc.request.JsonReader;
+import com.greenhat.mvc.request.JsonRequestEnum;
 import com.greenhat.util.ArrayUtil;
 import com.greenhat.util.CollectionUtil;
 import com.greenhat.util.StringUtil;
@@ -58,7 +59,7 @@ public final class ControllerLoader {
                             }
                             if (mapping.matches("/[./\\w_]+")) {
                                 Request request = new Request(requestMethod, mapping);
-                                Handler handler = new Handler(controllerClass, method);
+                                Handler handler = new Handler(false,controllerClass, method);
                                 actionMap.put(request, handler);
                                 logger.info("Put [{}] into [{}] Action Mapping~", mapping, controllerClass.getName());
                             }
@@ -74,24 +75,25 @@ public final class ControllerLoader {
 
         Handler handler = null;
         if (path.equals("/*JsonRequest")){
-            String serviceName = request.getHeader("Service");
-            String methodName = request.getHeader("Method");
+            String serviceName = request.getHeader(JsonRequestEnum.SERVICE.toString());
+            if (StringUtil.isEmpty(serviceName)){
+                throw new ServerException(ServerException.VALUE_NEEDED,"Service id 不能为空!");
+            }
+            String methodName = request.getHeader(JsonRequestEnum.METHOD.toString());
+            if (StringUtil.isEmpty(methodName)){
+                throw new ServerException(ServerException.VALUE_NEEDED,"MethodName 不能为空!");
+            }
 //            Map map = JsonReader.receiveJson(request);
 //            if (checkJsonRequest(map)){
-            boolean checkJson =(StringUtil.isEmpty(serviceName)||StringUtil.isNotEmpty(methodName));
-            if (!checkJson){
-                for (Map.Entry<Class<?>, Map<String,Method>> serviceEntry : serviceMap.entrySet()){
-                    Class<?> controller = serviceEntry.getKey();
-                    Map<String,Method> methodMap= serviceEntry.getValue();
-                    if (controller.getName().equalsIgnoreCase(serviceName)&&methodMap.containsKey(methodName)){
-                        handler = new Handler(controller,methodMap.get(methodName));
-                        return handler;
-                    }
+            for (Map.Entry<Class<?>, Map<String,Method>> serviceEntry : serviceMap.entrySet()){
+                Class<?> controller = serviceEntry.getKey();
+                Map<String,Method> methodMap= serviceEntry.getValue();
+                if (controller.getName().equalsIgnoreCase(serviceName)&&methodMap.containsKey(methodName)){
+                    handler = new Handler(true,controller,methodMap.get(methodName));
+                    return handler;
                 }
-                return null;
-            }else {
-                throw new ServerException(ServerException.VALUE_NEEDED,"Json 请求格式不正确!");
             }
+            throw new ServerException(ServerException.VALUE_NEEDED,"JsonRequest 无法查找到改服务!");
         }
         for (Map.Entry<Request, Handler> actionEntry : actionMap.entrySet()) {
             // 从 Requester 中获取 Request 相关属性
