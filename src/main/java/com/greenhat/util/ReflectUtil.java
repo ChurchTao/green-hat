@@ -1,9 +1,14 @@
 package com.greenhat.util;
 
+import com.greenhat.aop.AspectProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Method;
 
 public class ReflectUtil {
 
+	private static final Logger logger = LoggerFactory.getLogger(ReflectUtil.class);
 	public static Object invokeMehod(Object bean, Method method,
 			Object... args) {
 		try {
@@ -19,7 +24,7 @@ public class ReflectUtil {
 
 			return method.invoke(bean, args);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("反射赋值到方法参数失败，请检查参数个数，类型，顺序是否与入参一致,{}",e);
 		}
 		return null;
 	}

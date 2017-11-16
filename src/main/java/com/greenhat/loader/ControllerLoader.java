@@ -111,8 +111,4 @@ public final class ControllerLoader {
         }
         return handler;
     }
-//
-//    private static boolean checkJsonRequest(Map map){
-//        return (map.containsKey("Service")&& map.containsKey("Method")&& map.containsKey("Body"));
-//    }
 }

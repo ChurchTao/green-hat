@@ -15,6 +15,8 @@ import com.greenhat.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -95,22 +97,37 @@ public class RequestHandler {
 
         int len = params.length;
         Object[] args = new Object[len];
-
+        ArrayDeque queue = null;
+        boolean notNull = param.getJsonRequest()!=null;
+        if (notNull){
+            Object[] argsInput = param.getJsonRequest().getParameters();
+            queue = new ArrayDeque();
+            Collections.addAll(queue, argsInput);
+        }
         for (int i = 0; i < len; i++) {
             Class<?> paramTypeClazz = params[i];
+
             if (paramTypeClazz.getName().equals(HttpServletRequest.class.getName())) {
                 args[i] = request;
+                continue;
             }
             if (paramTypeClazz.getName().equals(HttpServletResponse.class.getName())) {
                 args[i] = response;
+                continue;
             }
             if (paramTypeClazz.getName().equals(Param.class.getName())) {
                 args[i] = param;
+                continue;
             }
             if (paramTypeClazz.getName().equals(JSONRequestBean.class.getName())) {
-                if (param.getJsonRequest()!=null){
+                if (notNull){
                     args[i] = param.getJsonRequest();
+                    continue;
                 }
+                continue;
+            }
+            if (queue!=null && !queue.isEmpty()){
+                args[i] = queue.poll();
             }
         }
         return args;

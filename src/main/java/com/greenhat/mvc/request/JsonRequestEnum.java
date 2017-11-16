@@ -1,9 +1,9 @@
 package com.greenhat.mvc.request;
 
 public enum JsonRequestEnum {
-    SERVICE("Service"),
-    METHOD("Method"),
-    BODY("Body");
+    SERVICE("X-Service"),
+    METHOD("X-Method"),
+    TOKEN("X-Token");
 
     private String type ;
 
