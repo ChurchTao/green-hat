@@ -17,7 +17,7 @@ public interface DataAccessor {
     <T> List<T> queryEntityList(Class<T> entityClass, String sql, Object... params);
 
     /**
-     * 查询对应的实体列表，返回单条记录（主键 => 实体）
+     * 查询对应的实体列表，返回单条记录（主键 = 实体）
      */
     <K, V> Map<K, V> queryEntityMap(Class<V> entityClass, String sql, Object... params);
 
@@ -32,27 +32,27 @@ public interface DataAccessor {
     List<Object[]> queryArrayList(String sql, Object... params);
 
     /**
-     * 查询对应的数据，返回单条记录（列名 => 数据）
+     * 查询对应的数据，返回单条记录（列名 = 数据）
      */
     Map<String, Object> queryMap(String sql, Object... params);
 
     /**
-     * 查询对应的数据，返回多条记录（列名 => 数据）
+     * 查询对应的数据，返回多条记录（列名 = 数据）
      */
     List<Map<String, Object>> queryMapList(String sql, Object... params);
 
     /**
-     * 查询对应的数据，返回单条数据（列名 => 数据）
+     * 查询对应的数据，返回单条数据（列名 = 数据）
      */
     <T> T queryColumn(String sql, Object... params);
 
     /**
-     * 查询对应的数据，返回多条数据（列名 => 数据）
+     * 查询对应的数据，返回多条数据（列名 = 数据）
      */
     <T> List<T> queryColumnList(String sql, Object... params);
 
     /**
-     * 查询指定列名对应的数据，返回多条数据（列名对应的数据 => 列名与数据的映射关系）
+     * 查询指定列名对应的数据，返回多条数据（列名对应的数据 = 列名与数据的映射关系）
      */
     <T> Map<T, Map<String, Object>> queryColumnMap(String column, String sql, Object... params);
 

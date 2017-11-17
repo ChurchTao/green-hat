@@ -124,7 +124,7 @@ public final class DatabaseLoader {
     }
 
     /**
-     * 根据 SQL 语句查询 Entity 映射（Field Name => Field Value）
+     * 根据 SQL 语句查询 Entity 映射（Field Name = Field Value）
      */
     public static <K, V> Map<K, V> queryEntityMap(Class<V> entityClass, String sql, Object... params) {
         return dataAccessor.queryEntityMap(entityClass, sql, params);
