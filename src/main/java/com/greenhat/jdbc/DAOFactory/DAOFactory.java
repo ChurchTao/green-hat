@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by jiacheng on 2017/8/10.
  */
 public class DAOFactory {
-    //todo 初始化 DAO 解析DAO中的方法并实例化
     private static final Logger logger = LoggerFactory.getLogger(DAOFactory.class);
     private static final ConcurrentHashMap<String, DAO<?>> store = new ConcurrentHashMap<>();
     static {

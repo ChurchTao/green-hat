@@ -37,11 +37,6 @@ public class ServletInitListener implements ServletContextListener {
         UploadHelper.init(servletContext);
     }
 
-//    private void addFilter(ServletContext servletContext) {
-//        servletContext.addFilter("Cross",CorsFilter.class);
-//        logger.info("Cross init OK !");
-//    }
-
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         //手动取消注册的 数据库驱动
         avoidGarbageCollectionWarning();
