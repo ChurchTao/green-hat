@@ -1,7 +1,8 @@
 package com.greenhat.mvc;
 
 
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
+import com.greenhat.json.JSONRequestBean;
 import com.greenhat.loader.BeanLoader;
 import com.greenhat.loader.ConfigLoader;
 import com.greenhat.mvc.bean.Handler;
@@ -14,6 +15,8 @@ import com.greenhat.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -29,7 +32,11 @@ public class RequestHandler {
         if (UploadHelper.isMultipart(req)) {
             param = UploadHelper.createParam(req);
         } else {
-            if (req.getContentType()==null){
+            if (handler.isJsonRequest()){
+                JSONRequestBean bean = JsonReader.readRequest(req);
+                param = new Param();
+                param.setJsonRequest(bean);
+            }else if (req.getContentType()==null){
                 Map<String, Object> paramMap = WebUtil.getRequestParamMap(req);
                 param = new Param(paramMap);
             }else {
@@ -48,7 +55,7 @@ public class RequestHandler {
         Method actionMethod = handler.getActionMethod();
         actionMethod.setAccessible(true); // 取消类型安全检测（可提高反射性能）
         Object result = executeMethod(controllerBean, actionMethod, req, res, param);
-        res.setHeader("X-Powered-By", "GreenHat(" + ConfigNames.VERSION + ")");
+        res.setHeader("X-Powered-By", "GreenHat(" + Config.VERSION + ")");
 
         if (result instanceof View) {
             View view = (View) result;
@@ -56,7 +63,7 @@ public class RequestHandler {
                 String path = view.getPath();
                 WebUtil.redirectRequest(path, req, res);
             } else {
-                String path = ConfigLoader.getAppJspPath() + view.getPath();
+                String path = Config.APP_JSP_PATH + view.getPath();
                 Map<String, Object> data = view.getModel();
                 if (MapUtil.isNotEmpty(data)) {
                     for (Map.Entry<String, Object> entry : data.entrySet()) {
@@ -68,7 +75,7 @@ public class RequestHandler {
         } else if (result instanceof String) {
             String path = (String) result;
             if (!path.equals("")) {
-                WebUtil.forwardRequest(ConfigLoader.getAppWwwPath()+path, req, res);
+                WebUtil.forwardRequest(Config.APP_WWW_PATH+path, req, res);
             }
         } else {
             Class<?> resultClass = actionMethod.getReturnType();
@@ -90,17 +97,37 @@ public class RequestHandler {
 
         int len = params.length;
         Object[] args = new Object[len];
-
+        ArrayDeque queue = null;
+        boolean notNull = param.getJsonRequest()!=null;
+        if (notNull){
+            Object[] argsInput = param.getJsonRequest().getParameters();
+            queue = new ArrayDeque();
+            Collections.addAll(queue, argsInput);
+        }
         for (int i = 0; i < len; i++) {
             Class<?> paramTypeClazz = params[i];
+
             if (paramTypeClazz.getName().equals(HttpServletRequest.class.getName())) {
                 args[i] = request;
+                continue;
             }
             if (paramTypeClazz.getName().equals(HttpServletResponse.class.getName())) {
                 args[i] = response;
+                continue;
             }
             if (paramTypeClazz.getName().equals(Param.class.getName())) {
                 args[i] = param;
+                continue;
+            }
+            if (paramTypeClazz.getName().equals(JSONRequestBean.class.getName())) {
+                if (notNull){
+                    args[i] = param.getJsonRequest();
+                    continue;
+                }
+                continue;
+            }
+            if (queue!=null && !queue.isEmpty()){
+                args[i] = queue.poll();
             }
         }
         return args;

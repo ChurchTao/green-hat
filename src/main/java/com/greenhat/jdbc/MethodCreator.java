@@ -1,8 +1,7 @@
 package com.greenhat.jdbc;
 
+import com.greenhat.jdbc.DAOFactory.CreateWay;
 import javassist.CtClass;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 

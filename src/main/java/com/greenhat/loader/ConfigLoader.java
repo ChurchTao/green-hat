@@ -1,7 +1,7 @@
 package com.greenhat.loader;
 
 
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 import com.greenhat.util.PropsUtil;
 
 import java.util.Map;
@@ -15,82 +15,8 @@ public final class ConfigLoader {
     /**
      * 属性文件对象
      */
-    private static final Properties configProps = PropsUtil.loadProps(ConfigNames.CONFIG_PROPS);
+    private static final Properties configProps = PropsUtil.loadProps(Config.CONFIG_PROPS);
 
-    /**
-     * 获取jdbc驱动
-     *
-     * @return
-     */
-    public static String getJdbcDriver() {
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_DRIVER);
-    }
-
-    /**
-     * 获取jdbc URL
-     *
-     * @return
-     */
-    public static String getJdbcURL() {
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_URL);
-    }
-
-    public static String getJdbcType() {
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_TYPE, "mysql");
-    }
-
-    public static String getPrintSQL() {
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_PRINTSQL, "true");
-    }
-
-    /**
-     * 获取jdbc username
-     *
-     * @return
-     */
-    public static String getJdbcUsername() {
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_USERNAME);
-    }
-
-    /**
-     * 获取jdbc password
-     *
-     * @return
-     */
-    public static String getJdbcPassword() {
-        return PropsUtil.getString(configProps, ConfigNames.JDBC_PASSWORD);
-    }
-
-    /**
-     * 获取基础包名
-     *
-     * @return
-     */
-    public static String getAppBasePackage() {
-        return PropsUtil.getString(configProps, ConfigNames.APP_BASE_PACKAGE);
-    }
-
-    /**
-     * 获取 JSP路径
-     *
-     * @return
-     */
-    public static String getAppJspPath() {
-        return PropsUtil.getString(configProps, ConfigNames.APP_JSP_PATH, "/WEB-INF/view/");
-    }
-
-    /**
-     * 获取 资源目录
-     *
-     * @return
-     */
-    public static String getAppAssetPath() {
-        return PropsUtil.getString(configProps, ConfigNames.APP_ASSET_PATH, "/asset/");
-    }
-
-    public static String getAppWwwPath() {
-        return PropsUtil.getString(configProps, ConfigNames.APP_WWW_PATH, "/www/");
-    }
 
     /**
      * 获取 String 类型的属性值

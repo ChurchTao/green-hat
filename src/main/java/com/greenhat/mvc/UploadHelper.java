@@ -1,6 +1,6 @@
 package com.greenhat.mvc;
 
-import com.greenhat.ConfigNames;
+import com.greenhat.Config;
 import com.greenhat.mvc.bean.FileParam;
 import com.greenhat.mvc.bean.FormParam;
 import com.greenhat.mvc.bean.Param;
@@ -38,7 +38,7 @@ public class UploadHelper {
         // 创建 FileUpload 对象
         fileUpload = new ServletFileUpload(new DiskFileItemFactory(DiskFileItemFactory.DEFAULT_SIZE_THRESHOLD, repository));
         // 设置上传限制
-        int uploadLimit = ConfigNames.UPLOAD_LIMIT;
+        int uploadLimit = Config.UPLOAD_LIMIT;
         if (uploadLimit != 0) {
             fileUpload.setFileSizeMax(uploadLimit * 1024 * 1024); // 单位为 M
         }

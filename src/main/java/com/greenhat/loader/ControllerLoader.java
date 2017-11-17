@@ -1,14 +1,19 @@
 package com.greenhat.loader;
 
 
-import com.greenhat.annotation.Mapping;
+import com.greenhat.ioc.annotation.Mapping;
 import com.greenhat.mvc.bean.Handler;
 import com.greenhat.mvc.bean.Request;
+import com.greenhat.mvc.fault.ServerException;
+import com.greenhat.mvc.request.JsonReader;
+import com.greenhat.mvc.request.JsonRequestEnum;
 import com.greenhat.util.ArrayUtil;
 import com.greenhat.util.CollectionUtil;
+import com.greenhat.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * Created by jiacheng on 2017/7/19.
  */
@@ -24,6 +30,7 @@ public final class ControllerLoader {
     private static final Logger logger = LoggerFactory.getLogger(ControllerLoader.class);
 
     private static final Map<Request, Handler> actionMap = new ConcurrentHashMap<Request, Handler>();
+    private static final Map<Class<?>, Map<String,Method>> serviceMap = new ConcurrentHashMap<Class<?>, Map<String,Method>>();
 
     static {
         logger.info("ControllerLoader init start!");
@@ -34,6 +41,14 @@ public final class ControllerLoader {
                 if (ArrayUtil.isNotEmpty(methods)) {
                     for (Method method : methods) {
                         if (method.isAnnotationPresent(Mapping.class)) {
+                            if (serviceMap.containsKey(controllerClass)){
+                                Map<String,Method> services = serviceMap.get(controllerClass);
+                                services.put(method.getName(),method);
+                            }else {
+                                Map<String,Method> services = new HashMap<>();
+                                services.put(method.getName(),method);
+                                serviceMap.put(controllerClass,services);
+                            }
                             Mapping action = method.getAnnotation(Mapping.class);
                             String mapping = action.value();
                             String requestMethod = action.method().toString();
@@ -44,20 +59,42 @@ public final class ControllerLoader {
                             }
                             if (mapping.matches("/[./\\w_]+")) {
                                 Request request = new Request(requestMethod, mapping);
-                                Handler handler = new Handler(controllerClass, method);
+                                Handler handler = new Handler(false,controllerClass, method);
                                 actionMap.put(request, handler);
                                 logger.info("Put [{}] into [{}] Action Mapping~", mapping, controllerClass.getName());
                             }
                         }
                     }
                 }
+                logger.info("Total [{}] Service method in [{}]  ~", serviceMap.get(controllerClass).size(), controllerClass.getName());
             }
         }
     }
 
-    public static Handler getHandler(String method, String path) {
+    public static Handler getHandler(String method, String path, HttpServletRequest request) throws Exception {
 
         Handler handler = null;
+        if (path.equals("/*JsonRequest")){
+            String serviceName = request.getHeader(JsonRequestEnum.SERVICE.toString());
+            if (StringUtil.isEmpty(serviceName)){
+                throw new ServerException(ServerException.VALUE_NEEDED,"Service id 不能为空!");
+            }
+            String methodName = request.getHeader(JsonRequestEnum.METHOD.toString());
+            if (StringUtil.isEmpty(methodName)){
+                throw new ServerException(ServerException.VALUE_NEEDED,"MethodName 不能为空!");
+            }
+//            Map map = JsonReader.receiveJson(request);
+//            if (checkJsonRequest(map)){
+            for (Map.Entry<Class<?>, Map<String,Method>> serviceEntry : serviceMap.entrySet()){
+                Class<?> controller = serviceEntry.getKey();
+                Map<String,Method> methodMap= serviceEntry.getValue();
+                if (controller.getName().equalsIgnoreCase(serviceName)&&methodMap.containsKey(methodName)){
+                    handler = new Handler(true,controller,methodMap.get(methodName));
+                    return handler;
+                }
+            }
+            throw new ServerException(ServerException.VALUE_NEEDED,"JsonRequest 无法查找到改服务!");
+        }
         for (Map.Entry<Request, Handler> actionEntry : actionMap.entrySet()) {
             // 从 Requester 中获取 Request 相关属性
             Request requester = actionEntry.getKey();

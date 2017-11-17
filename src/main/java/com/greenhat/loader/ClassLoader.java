@@ -2,9 +2,10 @@ package com.greenhat.loader;
 
 
 
-import com.greenhat.annotation.Bean;
-import com.greenhat.annotation.Controller;
-import com.greenhat.annotation.Service;
+import com.greenhat.Config;
+import com.greenhat.ioc.annotation.Bean;
+import com.greenhat.ioc.annotation.Controller;
+import com.greenhat.ioc.annotation.Service;
 import com.greenhat.util.ClassUtil;
 
 import java.lang.annotation.Annotation;
@@ -16,7 +17,7 @@ public final class ClassLoader {
     private static final List<Class<?>> CLASS_LIST;
 
     static {
-        String basePackage= ConfigLoader.getAppBasePackage();
+        String basePackage= Config.APP_BASE_PACKAGE;
         CLASS_LIST = ClassUtil.getClassList(basePackage);
     }
 

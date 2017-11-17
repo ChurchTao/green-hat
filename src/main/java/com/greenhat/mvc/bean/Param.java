@@ -1,6 +1,7 @@
 package com.greenhat.mvc.bean;
 
 
+import com.greenhat.json.JSONRequestBean;
 import com.greenhat.util.CastUtil;
 import com.greenhat.util.CollectionUtil;
 import com.greenhat.util.MapUtil;
@@ -21,6 +22,8 @@ public class Param {
 
     private Map<String,Object> paramMap;
 
+    private JSONRequestBean jsonRequest;
+
     public Param(List<FormParam> formParamList) {
         this.formParamList = formParamList;
     }
@@ -32,6 +35,16 @@ public class Param {
 
     public Param(Map<String, Object> paramMap) {
         this.paramMap = paramMap;
+    }
+
+    public Param(){}
+
+    public JSONRequestBean getJsonRequest() {
+        return jsonRequest;
+    }
+
+    public void setJsonRequest(JSONRequestBean jsonRequest) {
+        this.jsonRequest = jsonRequest;
     }
 
     /**
@@ -108,6 +121,10 @@ public class Param {
 
     public int getInt(String name) {
         return CastUtil.castInt(get(name));
+    }
+
+    public Map<String,Object> getJsonBody(){
+        return (Map<String, Object>) paramMap.get("Body");
     }
 
     public Object get(String name) {
