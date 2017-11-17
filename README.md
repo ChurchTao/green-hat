@@ -43,7 +43,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 <dependency>
     <groupId>com.github.churchtao</groupId>
     <artifactId>greenhat</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
 
