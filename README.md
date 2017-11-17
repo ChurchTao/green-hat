@@ -5,7 +5,7 @@
 [Quick Start]()&nbsp; | &nbsp;[Demo Project](https://github.com/ChurchTao/greenhatdemo)&nbsp; | &nbsp;[English]()
 
 ![Build](https://img.shields.io/badge/Java-1.6+-green.svg?style=flat-square)
-![Version 1.0](https://img.shields.io/badge/version-1.0-yellow.svg?style=flat-square)
+![Version 1.1](https://img.shields.io/badge/version-1.1-yellow.svg?style=flat-square)
 
 
 ## 当前版本更新:
