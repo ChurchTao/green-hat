@@ -77,7 +77,7 @@ public class DispatcherServlet extends HttpServlet {
             requestHandler.doHandel(req, res, handler);
         } catch (Exception e) {
             if (e instanceof ServerException){
-                WebUtil.writeJSON(res, RestResponse.fail(((ServerException) e).getCode(),e.getMessage()),RestResponse.class);
+                WebUtil.writeJSON(res, RestResponse.fail(((ServerException) e).getCode(),e.getMessage().substring(39)),RestResponse.class);
                 return;
             }
             logger.error("请检查config.properties 是否设置正确 {}",e);

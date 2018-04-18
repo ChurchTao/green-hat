@@ -1,6 +1,7 @@
 package com.greenhat.util;
 
 import com.greenhat.aop.AspectProxy;
+import com.greenhat.mvc.fault.ServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,11 @@ public class ReflectUtil {
 
 			return method.invoke(bean, args);
 		} catch (Exception e) {
-			logger.error("反射赋值到方法参数失败，请检查参数个数，类型，顺序是否与入参一致,{}",e);
+			if (e.getCause().getClass().getSimpleName().equals(ServerException.class.getSimpleName())){
+				throw new ServerException(e.getCause());
+			}else {
+				logger.error("反射赋值到方法参数失败，请检查参数个数，类型，顺序是否与入参一致,{}",e);
+			}
 		}
 		return null;
 	}
