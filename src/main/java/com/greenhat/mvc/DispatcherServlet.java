@@ -33,6 +33,9 @@ public class DispatcherServlet extends HttpServlet {
         String requestMethod = req.getMethod().toLowerCase();
         String requestPath = req.getPathInfo();
 
+        if ("true".equals(Config.ALLOW_CORS)&&"options".equalsIgnoreCase(requestMethod)){
+            return;
+        }
         logger.debug("[Green Hat] {}:{}", requestMethod, requestPath);
         // 将“/”请求重定向到首页
         if (requestPath.equals("/")||requestPath.equals("")) {

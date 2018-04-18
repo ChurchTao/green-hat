@@ -25,5 +25,6 @@ public interface Config {
     String APP_WWW_PATH = ConfigLoader.getString("app.www_path","/www/");
     String APP_PATH_404 = ConfigLoader.getString("app.404_path","404.html");
     String HOME_PAGE = ConfigLoader.getString("app.home_page", "/index.html");
+    String ALLOW_CORS = ConfigLoader.getString("allowCORS","false");
     int UPLOAD_LIMIT = ConfigLoader.getInt("app.upload_limit", 10);
 }

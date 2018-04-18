@@ -3,6 +3,7 @@ package com.greenhat.aop;
 
 import com.greenhat.aop.annotation.Transaction;
 import com.greenhat.jdbc.DatabaseLoader;
+import com.greenhat.mvc.fault.ServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +39,10 @@ public class TransactionProxy implements Proxy {
             }catch (Exception e){
                 DatabaseLoader.rollbackTransaction();
                 logger.debug("rollback Transaction");
-                logger.error("because :{}",e);
+                logger.error("rollback Transaction because :{}",e.getMessage());
+                if (e instanceof ServerException){
+                    throw e;
+                }
             }finally {
                 FLAG_HOLDER.remove();
             }
