@@ -48,6 +48,13 @@ public class RestResponse<T> {
         this.data = data;
         this.code = code;
     }
+    public RestResponse(boolean success, T data, int code,String msg) {
+        this.timestamp = System.currentTimeMillis() / 1000;
+        this.success = success;
+        this.data = data;
+        this.code = code;
+        this.msg = msg;
+    }
 
     public RestResponse(boolean success, String msg) {
         this.timestamp = System.currentTimeMillis() / 1000;
@@ -116,6 +123,10 @@ public class RestResponse<T> {
 
     public static <T> RestResponse ok(T data, int code) {
         return new RestResponse(true, data, code);
+    }
+
+    public static <T> RestResponse ok(T data, int code,String msg) {
+        return new RestResponse(true, data, code,msg);
     }
 
     public static RestResponse fail() {
