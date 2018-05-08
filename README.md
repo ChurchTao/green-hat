@@ -10,9 +10,6 @@
 
 ## 当前版本更新:
 
-*更新了数据库驱动,提供基于方法名解析的动态生成抽象方法的功能。
-省去繁琐,大量重复的操作
-
 ## What is green-hat ?
 
 green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只能是注解...)，在学习spring原理的途中
@@ -36,6 +33,9 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 * 优雅的：`green-hat` 沿用Spring的注解风格，方便记忆。
 
 ## 快速入门 [demo](https://github.com/ChurchTao/greenhatdemo)
+
+# 这Demo很老了，我建议还是看 [新项目](https://github.com/FogiveHat/w-paper/tree/newVersion)
+# 注意是newVersion分支
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
 
