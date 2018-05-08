@@ -43,7 +43,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 <dependency>
     <groupId>com.github.churchtao</groupId>
     <artifactId>greenhat</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 
@@ -57,6 +57,8 @@ app.asset_path=/asset/          资源目录      [默认 /asset/]
 app.home_page=/index.html       主页          [默认 /index.html]
 app.www_path=/www/              html页面地址  [默认 /www/]
 app.upload_limit=10             上传文件大小  [默认10mb]
+#支持跨域
+allowCORS=true
 
 #jdbc
 jdbc.driver=com.mysql.jdbc.Driver
