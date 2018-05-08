@@ -35,7 +35,7 @@ green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只
 * 简洁的：框架设计简单,容易理解,不依赖于更多第三方库。你完全可以看懂框架里面的简单代码。
 * 优雅的：`green-hat` 沿用Spring的注解风格，方便记忆。
 
-## 快速入门 [demo](https://github.com/ChurchTao/greenhat-demo)
+## 快速入门 [demo](https://github.com/ChurchTao/greenhatdemo)
 
 新建maven工程，在pom.xml中加入`Maven` 配置：
 
