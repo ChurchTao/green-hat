@@ -14,7 +14,7 @@
 
 green-hat 是一款轻量级MVC框架。沿用Spring的注解风格(暂时也只能是注解...)，在学习spring原理的途中
 
-想着自己造一个简单的轮子。于是就有了这个 `green-hat[Forgive Hat]`
+想着自己造一个简单的轮子。于是就有了这个
 
 如果你喜欢它请为它 [Star](https://github.com/ChurchTao/green-hat/stargazers) 谢谢
 
